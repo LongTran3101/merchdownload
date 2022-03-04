@@ -92,7 +92,7 @@ import static toolupteepublic.downloadanh1.isElementXpath;
  *
  * @author me
  */
-public class c extends javax.swing.JFrame {
+public class Coolwallpapers extends javax.swing.JFrame {
 
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     /**
@@ -104,7 +104,7 @@ public class c extends javax.swing.JFrame {
     String stringUrlSave;
     static String Key;
 
-    public c() {
+    public Coolwallpapers() {
 
         initComponents();
     }
@@ -266,7 +266,6 @@ public class c extends javax.swing.JFrame {
             });
 
             buttonGroup1.add(theolink);
-            theolink.setSelected(true);
             theolink.setText("Theo Link");
             theolink.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -327,6 +326,7 @@ public class c extends javax.swing.JFrame {
             checkresize.setText("resize");
 
             buttonGroup1.add(theopage);
+            theopage.setSelected(true);
             theopage.setText("Theo page");
 
             jLabel6.setText("key word cần lọc");
@@ -340,7 +340,12 @@ public class c extends javax.swing.JFrame {
 
             jLabel7.setText("Số lượng DS");
 
-            soluongDS.setText("20");
+            soluongDS.setText("2000");
+            soluongDS.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    soluongDSActionPerformed(evt);
+                }
+            });
 
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
@@ -492,13 +497,8 @@ public class c extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
-          Key = keyApi.getText();
-
-            if (Key == null || Key.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Nhập key");
-                return;
-            }
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            
+            ProtectionDomain pd = Coolwallpapers.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -523,57 +523,6 @@ public class c extends javax.swing.JFrame {
             }
 
             adip = String.join(",", adress);
-
-            String filename = PathLocal + "./key.txt";
-            FileWriter fw = new FileWriter(filename); //the true will append the new data
-            fw.write("");//appends the string to the file
-            fw.close();
-            FileWriter fw2 = new FileWriter(filename); //the true will append the new data
-            fw2.write(String.valueOf(Key));//appends the string to the file
-            fw2.close();
-
-            subMitClass submitKey = new subMitClass();
-            //submit.setLstImage(objSubmid);
-            submitKey.setKey(Key);
-            submitKey.setAddress(adip);
-
-            String checkKeyUrl = "http://45.77.65.193:8080/checkkey";
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String bodyKey = gson.toJson(submitKey);
-
-            String respKey = callAPIPost(checkKeyUrl, bodyKey);
-            subMitClass submitRPKey = new subMitClass();
-            if (respKey != null && !respKey.isEmpty()) {
-                submitRPKey = gson.fromJson(respKey, subMitClass.class);
-                if (!submitRPKey.getKey().equalsIgnoreCase("00")) {
-                    String c = "j", d = "e";
-//            String log = PathLocal + "./log.txt";
-                    String k = "c", f = "t";
-//            FileWriter fw3 = new FileWriter(log, true); //the true will append the new data
-//            fw3.write("mac adress " + adip + "----" + adressMac);//appends the string to the file
-                    String lll = "r", b = "e";
-//            fw3.close();
-
-                    abcxyz.setText(lll + b + c + d + k + f);
-                    return;
-
-                }
-
-            } else {
-                String c = "j", d = "e";
-//            String log = PathLocal + "./log.txt";
-                String k = "c", f = "t";
-//            FileWriter fw3 = new FileWriter(log, true); //the true will append the new data
-//            fw3.write("mac adress " + adip + "----" + adressMac);//appends the string to the file
-                String lll = "r", b = "e";
-//            fw3.close();
-
-                abcxyz.setText(lll + b + c + d + k + f);
-                return;
-            }
-
-
             File currentDir = new File("");
             System.out.println(currentDir.getAbsolutePath());
 
@@ -586,9 +535,10 @@ public class c extends javax.swing.JFrame {
             //System.out.println(PathLocal+".\\chromium\\win32-564778\\chrome-win32\\chrome.exe");
             //olUpTeepublic\build\GoogleChromePortable\App\Chrome-bin\chrome.exe
             chromeProfile.setBinary(PathLocal + ".\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe");
-            File ex = new File(PathLocal + "./cmhaijgncfpbbhfnieobpbadekcpjpol.crx");
-            chromeProfile.addArguments("window-size=500,500");
-            chromeProfile.addExtensions(ex);
+            //File ex = new File(PathLocal + "./cmhaijgncfpbbhfnieobpbadekcpjpol.crx");
+            //chromeProfile.addArguments("window-size=500,500");
+            chromeProfile.addArguments("--start-maximized");
+           // chromeProfile.addExtensions(ex);
 
 //                chromeProfile.addArguments("--headless");
 //                chromeProfile.addArguments("javascript.enabled=true");
@@ -715,39 +665,6 @@ public class c extends javax.swing.JFrame {
                 int timeout = 0;
                 Boolean oke = false;
 
-                while (!oke && timeout < 5000) {
-                    try {
-                        driver.get("https://www.amazon.com/");
-                        Thread.sleep(2000);
-                        driver.findElement(By.cssSelector("span#glow-ingress-line1")).click();
-                        oke = true;
-                    } catch (Exception e) {
-                        timeout = timeout + 100;
-                    }
-
-                    //driver.findElements(By.cssSelector("a.s-no-outline")).;
-                    //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
-                }
-                Thread.sleep(2000);
-                oke = false;
-                timeout = 0;
-                while (!oke && timeout < 5000) {
-                    try {
-                        WebElement element_maintag = driver.findElement(By.xpath("//*[@id=\"GLUXZipUpdateInput\"]"));
-                        element_maintag.sendKeys("10001");
-                        driver.findElement(By.xpath("//*[@id=\"GLUXZipUpdate\"]/span/input")).click();
-                        Thread.sleep(1000);
-                        driver.get("https://www.amazon.com/");
-                        oke = true;
-                    } catch (Exception e) {
-                        timeout = timeout + 100;
-                    }
-
-                    //driver.findElements(By.cssSelector("a.s-no-outline")).;
-                    //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
-                }
-                List<String> listurl = new ArrayList<>();
-
                 File directory = new File(PathLocal + "./abc.txt");
                 BufferedReader reader = new BufferedReader(new FileReader(directory));
                 // abcxyz.read(reader, null);
@@ -764,123 +681,37 @@ public class c extends javax.swing.JFrame {
                             //Thread.sleep(3000);
                             WebDriverWait wait = new WebDriverWait(driver, 15);
                             new WebDriverWait(driver, 15).until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-                            List<WebElement> listelement = driver.findElements(By.cssSelector("a.s-no-outline"));
+                            ((JavascriptExecutor) driver)
+					 .executeScript("document.body.style.zoom='50%'");
+                            WebElement body = driver.findElement(By.cssSelector("body"));
+                               
+                            for (int i = 0; i < 35; i++) {
+                                //((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight/20)");
+                                 body.sendKeys(Keys.PAGE_DOWN);
+                                Thread.sleep(1500);
+                            }
+                            
+                           // https://coolwallpapers.me/dload.php?f=6124156-nature-tree-sand-sea.jpg
+                            Thread.sleep(3000);
+                            List<WebElement> listelement = driver.findElements(By.cssSelector(".lazyautosizes"));
                             for (WebElement link : listelement) {
-                                //Element element =link.ch
+                                try {
+                                    System.out.println(link.getAttribute("data-src"));
+                               System.out.println(link.getAttribute("alt"));
+//Element element =link.ch
 
                                 //System.out.println("\nlink : " + link.attr("src").replace("thumb-", "") +" == alt :"+link.attr("alt"));
                                 String userimage = link.getAttribute("href");// link.attr("href").replace("/Games/wallpaper/", "");
                                 //  System.out.println("Href : "+link.attr("href"));
-
-                                a.add(userimage);
-
-                            }
-                            int i = 0;
-                            for (String url2 : a) {
-
-                                try {
-                                    driver.get(url2);
-                                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
-                                    WebElement links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
-                                    WebElement linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                                    WebElement tag = null;
-                                    if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
-                                        tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
-                                    }
-
-                                    WebElement des = null;
-                                    if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span", driver)) {
-                                        des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
-                                    }
-                                    image1 abc = new image1();
-
-                                    try {
-                                        String maintag = null;
-                                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span#mt_box_keywords")));
-                                        if (isElementcssSelector("span#mt_box_keywords", driver)) {
-                                            maintag = driver.findElement(By.cssSelector("span#mt_box_keywords")).getText().replace("(1)", "").replace("(2)", "").replace("(3)", "").replace("(4)", "").replace("(5)", "").replace("(6)", "").replace("(7)", "")
-                                                    .replace("(8)", "")
-                                                    .replace("(9)", "")
-                                                    .replace("(10)", "")
-                                                    .replace("(11)", "")
-                                                    .replace("(12)", "")
-                                                    .replace("(13)", "")
-                                                    .replace("(14)", "")
-                                                    .replace("(15)", "")
-                                                    .replace("(16)", "")
-                                                    .replace("(17)", "")
-                                                    .replace("(18)", "")
-                                                    .replace("(19)", "")
-                                                    .replace("(20)", "").replace("No keywords found.", "");
-                                            abc.setMaintag(maintag);
-
-                                        }
-
-                                    } catch (Exception e) {
-                                    }
-
-                                    String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
-                                    String title = linkstitle.getText();
-
-                                    abc.setAlt(title);
-                                    abc.setName(title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
-                                    abc.setDes(des != null ? des.getText() : "");
-                                    abc.setTag(tag != null ? tag.getText() : "");
-                                    abc.setUrl(linkimage);
-                                    if (!abc.getTag().isEmpty()) {
-                                        String tagfirst = abc.getAlt().replace("T-Shirt", "") + "," + abc.getTag() + "," + abc.getDes();
-                                        tagfirst = tagfirst.replace("'", "").replace("?", "").replace("!", "").replace("'", "").replace("&", "").replace("*", "").replace(".", "").replace("^", "").replace("@", "").replace("%", "")
-                                                .replace(";", "")
-                                                .replace("/", "")
-                                                .replace("'", "")
-                                                .replace(":", "")
-                                                .replace("-", "")
-                                                .replace("_", "").replace("\"", "")
-                                                .replace("(", "")
-                                                .replace(")", "")
-                                                .replace("%", "")
-                                                .replace("$", "")
-                                                .replace("#", "")
-                                                .replace("@", "")
-                                                .replace("!", "")
-                                                .replace("|", "")
-                                                .replace("+", "")
-                                                .replace("=", "")
-                                                .replace("~", "")
-                                                .replace("`", "")
-                                                .replace("<", "")
-                                                .replace(">", "")
-                                                .replace(".", "")
-                                                .replace("{", "")
-                                                .replace("}", "")
-                                                .replace("[", "")
-                                                .replace("]", "")
-                                                .replace(" ", ",")
-                                                .replace(",,,", ",").replace(",,", ",") + ",gift,idea,design,quote,sayings,funny,present,humor,birthday,christmas,sarcasm";
-
-                                        String[] words = tagfirst.toLowerCase().replace(" ", "").split(",");
-                                        String tagex = this.tagex.getText();
-                                        List<String> newtag = new ArrayList<>();
-                                        for (int jkk = 0; jkk < words.length; jkk++) {
-                                            if (words[jkk] == null || words[jkk].trim().isEmpty() || tagex.contains(words[jkk])) {
-                                                continue;
-                                            }
-                                            if (newtag.contains(words[jkk].trim()) == false) {
-                                                newtag.add(words[jkk].trim());
-                                            }
-
-                                        }
-                                        String tagnew = String.join(",", newtag);
-                                        abc.setTagchuan(tagnew);
-                                        //System.out.println(tagnew);
-                                    }
-                                    if (containsName(listimage, linkimage)) {
-                                        continue;
-
-                                    }
-                                    listimage.add(abc);
-                                    URL url = new URL(linkimage);
+                               
+                                 image1 abc = new image1();
+                                 abc.setDes("https://coolwallpapers.me/dload.php?f=" +link.getAttribute("data-src").replace("/picsup/", "") );
+                                 abc.setName(link.getAttribute("data-src").replace("/picsup/", ""));
+                                 abc.setAlt(link.getAttribute("alt"));
+                                 listimage.add(abc);
+                                    URL url = new URL(abc.getDes());
                                     URLConnection connection = url.openConnection();
+                                    connection.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
                                     connection.setConnectTimeout(10000);
                                     //System.out.println(FilenameUtils.getBaseName(url.getPath())); // -> file
                                     InputStream in = new BufferedInputStream(connection.getInputStream());
@@ -894,75 +725,19 @@ public class c extends javax.swing.JFrame {
                                     in.close();
                                     byte[] response = out.toByteArray();
 
-                                    if (checkresize.isSelected()) {
-
-                                        int newHeight = Integer.parseInt(hight.getText());
-                                        int newWidth = Integer.parseInt(width.getText());
-
-                                        // PNG supports transparency
-                                        // int type = config.formatName.equals("png")?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB;
-                                        ByteArrayInputStream bais = new ByteArrayInputStream(response);
-
-                                        BufferedImage inputimage = ImageIO.read(bais);
-                                        BufferedImage outputImage = trimImage(inputimage);
-
-                                        Scalr.Mode mode = Scalr.Mode.FIT_TO_HEIGHT;
-                                        BufferedImage outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
-                                        //System.out.println(outputImage2.getHeight());
-                                        if (outputImage2.getWidth() > newWidth) {
-                                            Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
-                                            outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
-                                            int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
-                                            int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
-                                            int type = BufferedImage.TYPE_INT_ARGB;
-
-                                            BufferedImage outputImage4 = new BufferedImage(newWidth, newHeight, type);
-                                            Graphics2D graphics2D = outputImage4.createGraphics();
-                                            RenderingHints hints = new RenderingHints(RenderingHints.KEY_INTERPOLATION,
-                                                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                                            hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-                                            hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                                            graphics2D.setRenderingHints(hints);
-
-                                            graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
-                                            graphics2D.dispose();
-
-                                            ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + abc.getName()));
-                                        } else {
-                                            int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
-                                            int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
-
-                                            int type = BufferedImage.TYPE_INT_ARGB;
-
-                                            BufferedImage outputImage4 = new BufferedImage(newWidth, newHeight, type);
-                                            Graphics2D graphics2D = outputImage4.createGraphics();
-                                            RenderingHints hints = new RenderingHints(RenderingHints.KEY_INTERPOLATION,
-                                                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                                            hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-                                            hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                                            graphics2D.setRenderingHints(hints);
-
-                                            graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
-                                            graphics2D.dispose();
-
-                                            ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + abc.getName()));
-                                        }
-                                    } else {
-                                        FileOutputStream fos = new FileOutputStream(linkSaveFile.getText() + title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
+                                    
+                                        FileOutputStream fos = new FileOutputStream(linkSaveFile.getText() + abc.getName());
                                         fos.write(response);
                                         fos.close();
-                                    }
-
-                                    i++;
-
-                                    abcxyz.setText("dowload thành công");
                                 } catch (Exception e) {
                                     continue;
                                 }
+                               
+                                
 
                             }
+                            
+                            
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -977,7 +752,7 @@ public class c extends javax.swing.JFrame {
                 for (List<image1> partition : Lists.partition(listimage, Integer.parseInt(soluongDS.getText()))) {
                     Workbook workbook = wirteExcel(partition);
                     try ( // Write the output to a file
-                            FileOutputStream fileOut = new FileOutputStream(directory2.getParentFile().getPath() + "/contacts" + dem + ".xlsx")) {
+                              FileOutputStream fileOut = new FileOutputStream(linkSaveFile.getText() + "contacts" + dem + ".xlsx")) {
                         workbook.write(fileOut);
                         //System.out.println("ok");
                         abcxyz.setText("done!");
@@ -1472,7 +1247,7 @@ public class c extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = Coolwallpapers.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -1500,25 +1275,42 @@ public class c extends javax.swing.JFrame {
             }
 
             adip = String.join(",", adress);
-            //System.out.println("http://donthan.info/APIRED/index.php?key=" + rand + "&adress=" + adip + "&method=create");
-            String checkKeyUrl = "http://45.77.65.193:8080/insert";
-            subMitClass submitKey = new subMitClass();
-            submitKey.setKey(String.valueOf(rand));
-            submitKey.setAddress(adip);
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String bodyKey = gson.toJson(submitKey);
+            //System.out.println("http://149.28.136.242/APIRED/index.php?key=" + rand + "&adress=" + adip + "&method=create");
+            URL obj = new URL("http://149.28.136.242/API/index.php?key=" + rand + "&adress=" + adip + "&method=create");
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
 
-            String respKey = callAPIPost(checkKeyUrl, bodyKey);
-            subMitClass submitRPKey = new subMitClass();
-            if (respKey != null && !respKey.isEmpty()) {
-                submitRPKey = gson.fromJson(respKey, subMitClass.class);
-                if (submitRPKey.getKey().equalsIgnoreCase("00")) {
+            int responseCode = con.getResponseCode();
+            //System.out.println("GET Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                // print result
+                //System.out.println(response.toString());
+                if (response.toString().contains("success")) {
                     makey.setText(String.valueOf(rand));
                     keyApi.setText(String.valueOf(rand));
                     Key = String.valueOf(rand);
-
                 }
+                String filename = PathLocal + "./key.txt";
+                FileWriter fw = new FileWriter(filename); //the true will append the new data
+                fw.write("");//appends the string to the file
+                fw.close();
+                FileWriter fw2 = new FileWriter(filename); //the true will append the new data
+                fw2.write(String.valueOf(rand));//appends the string to the file
+                fw2.close();
 
+                //System.out.println(response.toString());
+            } else {
+                System.out.println("GET request not worked");
             }
 
         } catch (Exception e) {
@@ -1539,6 +1331,10 @@ public class c extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tagexActionPerformed
 
+    private void soluongDSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soluongDSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_soluongDSActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1547,7 +1343,7 @@ public class c extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                c abc = new c();
+                Coolwallpapers abc = new Coolwallpapers();
                 abc.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
@@ -1577,7 +1373,7 @@ public class c extends javax.swing.JFrame {
                                 abc.keyApi.setText(Key);
                             }
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Coolwallpapers.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -1608,7 +1404,7 @@ public class c extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Coolwallpapers.class.getName()).log(Level.SEVERE, null, ex);
         }
         return urlresturn;
     }
