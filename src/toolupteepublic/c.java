@@ -987,7 +987,7 @@ public class c extends javax.swing.JFrame {
                                                 .replace("|", "")
                                                 .replace("+", "")
                                                 .replace("=", "")
-                                                .replace("~", "")
+                                                .replace("~", "") 
                                                 .replace("`", "")
                                                 .replace("<", "")
                                                 .replace(">", "")
