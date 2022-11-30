@@ -39,7 +39,6 @@ import java.net.URLConnection;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -95,7 +94,7 @@ import static toolupteepublic.downloadanh1.isElementXpath;
  *
  * @author me
  */
-public class c extends javax.swing.JFrame {
+public class backupc extends javax.swing.JFrame {
 
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     /**
@@ -107,7 +106,7 @@ public class c extends javax.swing.JFrame {
     String stringUrlSave;
     static String Key;
 
-    public c() {
+    public backupc() {
 
         initComponents();
     }
@@ -579,7 +578,7 @@ public class c extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Nhập key");
                 return;
             }
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = backupc.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -618,7 +617,7 @@ public class c extends javax.swing.JFrame {
             submitKey.setKey(Key);
             submitKey.setAddress(adip);
 
-            String checkKeyUrl = "http://merchmanager.info/checkkey";
+            String checkKeyUrl = "http://45.77.65.193:8080/checkkey";
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String bodyKey = gson.toJson(submitKey);
@@ -747,8 +746,7 @@ public class c extends javax.swing.JFrame {
                                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                             hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                             hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                            hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                            hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                             graphics2D.setRenderingHints(hints);
 
                             graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -767,8 +765,7 @@ public class c extends javax.swing.JFrame {
                                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                             hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                             hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                            hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                            hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                             graphics2D.setRenderingHints(hints);
 
                             graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -867,12 +864,11 @@ public class c extends javax.swing.JFrame {
                                     WebElement tag = null;
                                     WebElement des = null;
                                     try {
-                                        Thread.sleep(5000);
                                         driver.get(url2);
                                         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
                                         links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
                                         linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                                        WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
+ WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
                                         if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
                                             tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
                                         }
@@ -964,8 +960,6 @@ public class c extends javax.swing.JFrame {
                                     abc.setAlt(title);
                                     abc.setName(title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
                                     abc.setDes(des != null ? des.getText() : "");
-
-                                   
                                     abc.setTag(tag != null ? tag.getText() : "");
                                     abc.setUrl(linkimage);
                                     if (!abc.getTag().isEmpty()) {
@@ -1066,8 +1060,6 @@ public class c extends javax.swing.JFrame {
                                                             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                                     hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                                     hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                                    hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                                    hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
                                                     graphics2D.setRenderingHints(hints);
 
@@ -1087,8 +1079,6 @@ public class c extends javax.swing.JFrame {
                                                             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                                     hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                                     hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                                    hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                                    hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
                                                     graphics2D.setRenderingHints(hints);
 
@@ -1154,9 +1144,9 @@ public class c extends javax.swing.JFrame {
                     if (!(line.startsWith("*"))) {
 
                         try {
-
+                             Thread.sleep(5000);
                             driver.get(line);
-                            Thread.sleep(5000);
+                            Thread.sleep(1000);
                             WebDriverWait wait = new WebDriverWait(driver, 15);
                             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
                             WebElement links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
@@ -1181,13 +1171,13 @@ public class c extends javax.swing.JFrame {
                             } catch (Exception e) {
                             }
 
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-4-announce"), driver)) {
+                            if (isElementBy(By.name("0"), driver)) {
                                 typeTshirt.add("1");
                             }
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-5-announce"), driver)) {
+                               if (isElementBy(By.name("2"), driver)) {
                                 typeTshirt.add("2");
                             }
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-6-announce"), driver)) {
+                             if (isElementBy(By.name("3"), driver)) {
                                 typeTshirt.add("3");
                             }
 
@@ -1218,7 +1208,7 @@ public class c extends javax.swing.JFrame {
                                 abc.setMau("2");
                             }
                             abc.setAlt(title
-                                    .replaceAll(" Raglan Baseball Tee", "")
+                                      .replaceAll(" Raglan Baseball Tee", "")
                                     .replaceAll(" V-Neck T-Shirt", "")
                                     .replaceAll(" Tank Top", "")
                                     .replaceAll(" Zip Hoodie", "")
@@ -1229,7 +1219,7 @@ public class c extends javax.swing.JFrame {
                                     .replaceAll(" T-Shirt", "")
                                     .replaceAll("Womens ", "")
                                     .replaceAll("Mens ", "")
-                                    .replaceAll("Kids ", "")
+                                      .replaceAll("Kids ", "")
                                     .replaceAll(" Women V-Neck", ""));
 
                             abc.setBrand(brandel.getText().replaceAll("Brand: ", ""));
@@ -1345,8 +1335,7 @@ public class c extends javax.swing.JFrame {
                                                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                         hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                        hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                                         graphics2D.setRenderingHints(hints);
 
                                         graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -1365,8 +1354,7 @@ public class c extends javax.swing.JFrame {
                                                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                         hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                        hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                                         graphics2D.setRenderingHints(hints);
 
                                         graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -1727,7 +1715,7 @@ public class c extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = backupc.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -1756,7 +1744,7 @@ public class c extends javax.swing.JFrame {
 
             adip = String.join(",", adress);
             //System.out.println("http://donthan.info/APIRED/index.php?key=" + rand + "&adress=" + adip + "&method=create");
-            String checkKeyUrl = "http://merchmanager.info/insert";
+            String checkKeyUrl = "http://45.77.65.193:8080/insert";
             subMitClass submitKey = new subMitClass();
             submitKey.setKey(String.valueOf(rand));
             submitKey.setAddress(adip);
@@ -1898,7 +1886,7 @@ public class c extends javax.swing.JFrame {
                 //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
             }
         } catch (InterruptedException ex1) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex1);
+            Logger.getLogger(backupc.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -1911,7 +1899,7 @@ public class c extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                c abc = new c();
+                backupc abc = new backupc();
                 abc.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
@@ -1941,7 +1929,7 @@ public class c extends javax.swing.JFrame {
                                 abc.keyApi.setText(Key);
                             }
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(backupc.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -1972,7 +1960,7 @@ public class c extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(backupc.class.getName()).log(Level.SEVERE, null, ex);
         }
         return urlresturn;
     }

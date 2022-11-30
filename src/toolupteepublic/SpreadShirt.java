@@ -39,7 +39,6 @@ import java.net.URLConnection;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -95,7 +94,7 @@ import static toolupteepublic.downloadanh1.isElementXpath;
  *
  * @author me
  */
-public class c extends javax.swing.JFrame {
+public class SpreadShirt extends javax.swing.JFrame {
 
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     /**
@@ -107,7 +106,7 @@ public class c extends javax.swing.JFrame {
     String stringUrlSave;
     static String Key;
 
-    public c() {
+    public SpreadShirt() {
 
         initComponents();
     }
@@ -242,7 +241,7 @@ public class c extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("TOOL CRAWL MERCH");
+        setTitle("TOOL CRAWL SPREADSHIRT");
 
         jButton1.setText("download");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -341,7 +340,10 @@ public class c extends javax.swing.JFrame {
 
             hight.setText("5400");
 
+            checkresize.setSelected(true);
             checkresize.setText("resize");
+            checkresize.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            checkresize.setEnabled(false);
 
             buttonGroup1.add(theopage);
             theopage.setText("Theo page");
@@ -569,7 +571,10 @@ public class c extends javax.swing.JFrame {
 
             pack();
         }// </editor-fold>//GEN-END:initComponents
-
+public static String getText(WebDriver driver, WebElement element) {
+        return (String) ((JavascriptExecutor) driver).executeScript(
+                "return document.getElementBy('hidden_div').innerHTML");
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
@@ -579,7 +584,7 @@ public class c extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Nhập key");
                 return;
             }
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = SpreadShirt.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -618,7 +623,7 @@ public class c extends javax.swing.JFrame {
             submitKey.setKey(Key);
             submitKey.setAddress(adip);
 
-            String checkKeyUrl = "http://merchmanager.info/checkkey";
+            String checkKeyUrl = "http://45.77.65.193:8080/checkkey";
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String bodyKey = gson.toJson(submitKey);
@@ -667,7 +672,7 @@ public class c extends javax.swing.JFrame {
             //olUpTeepublic\build\GoogleChromePortable\App\Chrome-bin\chrome.exe
             chromeProfile.setBinary(PathLocal + ".\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe");
             File ex = new File(PathLocal + "./cmhaijgncfpbbhfnieobpbadekcpjpol.crx");
-            chromeProfile.addArguments("window-size=500,500");
+            chromeProfile.addArguments("start-maximized");
             chromeProfile.addExtensions(ex);
 
 //                chromeProfile.addArguments("--headless");
@@ -694,15 +699,27 @@ public class c extends javax.swing.JFrame {
 
                 try {
 
-                    driver.get(textURLForder.getText());
-                    //Thread.sleep(5000);
+                    driver.get(this.textURLForder.getText());
+                    //Thread.sleep(3000);
                     WebDriverWait wait = new WebDriverWait(driver, 15);
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
-                    WebElement links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
-                    WebElement linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                    String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
-                    String title = linkstitle.getText();
-                    String imageName = links2.getAttribute("src").split("%7C")[2];
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pdp-header__pt-name")));
+
+                    //WebElement linkstitle = driver.findElement(By.cssSelector(".pdp-header__design-title"));
+                    //WebElement tag = driver.findElement(By.cssSelector(".pdp-design-info__tags"));
+                    JavascriptExecutor executor = (JavascriptExecutor) driver;
+                    String title = (String) executor.executeScript("return document.getElementsByClassName('pdp-header__design-title')[0].innerText");
+                    System.out.println(title);
+                    executor.executeScript("document.getElementsByClassName('sprd-accordion__btn')[3].click();");
+                    String tag = (String) executor.executeScript("return document.getElementsByClassName('pdp-design-info__tags')[0].innerText");
+                    //WebElement links2 = driver.findElement(By.cssSelector(".pdp-design-info__image"));
+                    // System.out.println(tag.replaceAll("Tags:  ", ""));
+                    executor.executeScript("document.getElementsByClassName('pdp-design-info__image')[0].scrollIntoView()");
+                    Thread.sleep(3000);
+                    String linkimage = (String) executor.executeScript("return document.getElementsByClassName('pdp-design-info__image')[0].src");
+                    linkimage = linkimage.split(",")[0] + ",width=1200,height=1200.png";
+                    linkimage = linkimage.replaceAll("spreadshirtmedia", "spreadshirt");
+                    //String title = linkstitle.getText();
+
                     URL url = new URL(linkimage);
                     //System.out.println(FilenameUtils.getBaseName(url.getPath())); // -> file
                     InputStream in = new BufferedInputStream(url.openStream());
@@ -747,6 +764,7 @@ public class c extends javax.swing.JFrame {
                                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                             hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                             hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                            hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                             hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
                             hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
                             graphics2D.setRenderingHints(hints);
@@ -767,6 +785,7 @@ public class c extends javax.swing.JFrame {
                                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                             hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                             hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                            hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                             hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
                             hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
                             graphics2D.setRenderingHints(hints);
@@ -794,40 +813,7 @@ public class c extends javax.swing.JFrame {
 
             if (theopage.isSelected()) {
 
-                int timeout = 0;
-                Boolean oke = false;
-
-                while (!oke && timeout < 5000) {
-                    try {
-                        driver.get("https://www.amazon.com/");
-                        Thread.sleep(2000);
-                        driver.findElement(By.cssSelector("span#glow-ingress-line1")).click();
-                        oke = true;
-                    } catch (Exception e) {
-                        timeout = timeout + 100;
-                    }
-
-                    //driver.findElements(By.cssSelector("a.s-no-outline")).;
-                    //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
-                }
-                Thread.sleep(2000);
-                oke = false;
-                timeout = 0;
-                while (!oke && timeout < 5000) {
-                    try {
-                        WebElement element_maintag = driver.findElement(By.xpath("//*[@id=\"GLUXZipUpdateInput\"]"));
-                        element_maintag.sendKeys("10001");
-                        driver.findElement(By.xpath("//*[@id=\"GLUXZipUpdate\"]/span/input")).click();
-                        Thread.sleep(1000);
-                        driver.get("https://www.amazon.com/");
-                        oke = true;
-                    } catch (Exception e) {
-                        timeout = timeout + 100;
-                    }
-
-                    //driver.findElements(By.cssSelector("a.s-no-outline")).;
-                    //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
-                }
+                
                 List<String> listurl = new ArrayList<>();
 
                 File directory = new File(PathLocal + "./abc.txt");
@@ -841,12 +827,13 @@ public class c extends javax.swing.JFrame {
 
                         try {
                             driver.get(line);
-
+                            
                             List<String> a = new ArrayList<>();
                             //Thread.sleep(3000);
                             WebDriverWait wait = new WebDriverWait(driver, 15);
                             new WebDriverWait(driver, 15).until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-                            List<WebElement> listelement = driver.findElements(By.cssSelector("a.s-no-outline"));
+                            Thread.sleep(5000);
+                            List<WebElement> listelement = driver.findElements(By.cssSelector("a.sprd-tile__wrapper"));
                             for (WebElement link : listelement) {
                                 //Element element =link.ch
 
@@ -864,157 +851,44 @@ public class c extends javax.swing.JFrame {
                                     WebElement links2;
                                     WebElement linkstitle;
                                     image1 abc = new image1();
-                                    WebElement tag = null;
+                                    String tag = null;
                                     WebElement des = null;
+                                    String title = null;
+                                    String linkimage = null;
                                     try {
                                         Thread.sleep(5000);
                                         driver.get(url2);
-                                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
-                                        links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
-                                        linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                                        WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
-                                        if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
-                                            tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
-                                        }
-
-                                        if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span", driver)) {
-                                            des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
-                                        }
-                                        List<String> typeTshirt = new ArrayList<String>();
-                                        if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-4-announce"), driver)) {
-                                            typeTshirt.add("1");
-                                        }
-                                        if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-5-announce"), driver)) {
-                                            typeTshirt.add("2");
-                                        }
-                                        if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-6-announce"), driver)) {
-                                            typeTshirt.add("3");
-                                        }
-
-                                        //String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
-                                        String title = linkstitle.getText();
-
-                                        if (typeTshirt.isEmpty()) {
-                                            if (title.contains("Mens ")) {
-                                                typeTshirt.add("1");
-                                            }
-                                            if (title.contains("Womens ")) {
-                                                typeTshirt.add("2");
-                                            }
-
-                                        }
-                                        if (typeTshirt.isEmpty()) {
-                                            typeTshirt.add("1");
-                                            typeTshirt.add("2");
-                                        }
-                                        abc.setKieuao(String.join(",", typeTshirt));
-                                        if (isElementBy(By.cssSelector("img[alt='Black']"), driver)) {
-                                            abc.setMau("1");
-                                        } else {
-                                            abc.setMau("2");
-                                        }
-                                        abc.setAlt(title
-                                                .replaceAll(" V-Neck T-Shirt", "")
-                                                .replaceAll(" Tank Top", "")
-                                                .replaceAll(" Zip Hoodie", "")
-                                                .replaceAll(" Premium T-Shirt", "")
-                                                .replaceAll(" Sweatshirt", "")
-                                                .replaceAll(" Pullover Hoodie", "")
-                                                .replaceAll("Long Sleeve T-Shirt", "")
-                                                .replaceAll(" T-Shirt", "")
-                                                .replaceAll("Womens ", "")
-                                                .replaceAll("Mens ", "")
-                                                .
-                                                replaceAll(" Women V-Neck", ""));
-
-                                        abc.setBrand(brandel.getText().replaceAll("Brand: ", ""));
-                                        if (abc.getBrand().length() > 45) {
-                                            String newbrand = abc.getBrand().substring(0, 45);
-
-                                            int b = newbrand.lastIndexOf(" ");
-                                            // System.out.println(b);
-                                            //String nameProfile = newbrand.substring(b + 1);
-                                            String urlDataur = newbrand.substring(0, b + 1);
-                                            abc.setBrandnew(urlDataur);
-                                        } else {
-                                            abc.setBrandnew(abc.getBrand() + " Gift");
-                                        }
-
-                                        String maintag = null;
+                                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pdp-header__pt-name")));
+                                        //System.out.println(links2.getAttribute("src"));
+                                        //WebElement linkstitle = driver.findElement(By.cssSelector(".pdp-header__design-title"));
+                                        //WebElement tag = driver.findElement(By.cssSelector(".pdp-design-info__tags"));
+                                        JavascriptExecutor executor = (JavascriptExecutor) driver;
+                                        title = (String) executor.executeScript("return document.getElementsByClassName('pdp-header__design-title')[0].innerText");
+                                        //System.out.println(title);
+                                        executor.executeScript("document.getElementsByClassName('sprd-accordion__btn')[3].click();");
+                                        tag = (String) executor.executeScript("return document.getElementsByClassName('pdp-design-info__tags')[0].innerText");
+                                        //System.out.println(tag.replaceAll("Tags:  ", "")); 
+                                        executor.executeScript("document.getElementsByClassName('pdp-design-info__image')[0].scrollIntoView()");
+                                        Thread.sleep(3000);
+                                        linkimage = (String) executor.executeScript("return document.getElementsByClassName('pdp-design-info__image')[0].src");
+                                        linkimage = linkimage.split(",")[0] + ",width=1200,height=1200.png";
+                                        linkimage = linkimage.replaceAll("spreadshirtmedia", "spreadshirt");
 
                                     } catch (Exception e) {
                                         continue;
                                     }
 
-                                    String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
+                                    if(listurl.contains(linkimage))
+                                    {
+                                        continue;
+                                    }
                                     listurl.add(linkimage);
-                                    String title = linkstitle.getText();
-                                    if (isElementBy(By.cssSelector("img[alt='Black']"), driver)) {
-                                        abc.setMau("1,3,4,6,8,9,12,13,14,16");
-                                    } else {
-                                        abc.setMau("2,5,7,11,10,16,20,21");
-                                    }
-                                    abc.setAlt(title);
-                                    if (title.length() > 50) {
-                                        abc.setBrand(title.substring(0, 50));
-                                    } else {
-                                        abc.setBrand(title);
-                                    }
 
                                     abc.setAlt(title);
                                     abc.setName(title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
-                                    abc.setDes(des != null ? des.getText() : "");
 
-                                   
-                                    abc.setTag(tag != null ? tag.getText() : "");
-                                    abc.setUrl(linkimage);
-                                    if (!abc.getTag().isEmpty()) {
-                                        String tagfirst = abc.getAlt().replace("T-Shirt", "") + "," + abc.getTag() + "," + abc.getDes();
-                                        tagfirst = tagfirst.replace("'", "").replace("?", "").replace("!", "").replace("'", "").replace("&", "").replace("*", "").replace(".", "").replace("^", "").replace("@", "").replace("%", "")
-                                                .replace(";", "")
-                                                .replace("/", "")
-                                                .replace("'", "")
-                                                .replace(":", "")
-                                                .replace("-", "")
-                                                .replace("_", "").replace("\"", "")
-                                                .replace("(", "")
-                                                .replace(")", "")
-                                                .replace("%", "")
-                                                .replace("$", "")
-                                                .replace("#", "")
-                                                .replace("@", "")
-                                                .replace("!", "")
-                                                .replace("|", "")
-                                                .replace("+", "")
-                                                .replace("=", "")
-                                                .replace("~", "")
-                                                .replace("`", "")
-                                                .replace("<", "")
-                                                .replace(">", "")
-                                                .replace(".", "")
-                                                .replace("{", "")
-                                                .replace("}", "")
-                                                .replace("[", "")
-                                                .replace("]", "")
-                                                .replace(" ", ",")
-                                                .replace(",,,", ",").replace(",,", ",") + ",gift,idea,design,quote,sayings,funny,present,humor,birthday,christmas,sarcasm";
-
-                                        String[] words = tagfirst.toLowerCase().replace(" ", "").split(",");
-                                        String tagex = this.tagex.getText();
-                                        List<String> newtag = new ArrayList<>();
-                                        for (int jkk = 0; jkk < words.length; jkk++) {
-                                            if (words[jkk] == null || words[jkk].trim().isEmpty() || tagex.contains(words[jkk])) {
-                                                continue;
-                                            }
-                                            if (newtag.contains(words[jkk].trim()) == false) {
-                                                newtag.add(words[jkk].trim());
-                                            }
-
-                                        }
-                                        String tagnew = String.join(",", newtag);
-                                        abc.setTagchuan(tagnew);
-                                        //System.out.println(tagnew);
-                                    }
+                                    abc.setTag(tag != null ? tag.replaceAll("Tags:  ", "") : "");
+                                    abc.setUrl(url2);
 
                                     listimage.add(abc);
 
@@ -1066,6 +940,7 @@ public class c extends javax.swing.JFrame {
                                                             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                                     hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                                     hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                                                    hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                                                     hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
                                                     hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
@@ -1087,6 +962,7 @@ public class c extends javax.swing.JFrame {
                                                             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                                     hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                                     hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                                                    hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                                                     hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
                                                     hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
@@ -1130,7 +1006,7 @@ public class c extends javax.swing.JFrame {
                 for (List<image1> partition : Lists.partition(listimage, Integer.parseInt(soluongDS.getText()))) {
                     Workbook workbook = wirteExcel(partition);
                     try ( // Write the output to a file
-                            FileOutputStream fileOut = new FileOutputStream(directory2.getParentFile().getPath() + "/contacts" + dem + ".xlsx")) {
+                            FileOutputStream fileOut = new FileOutputStream(linkSaveFile.getText() + "contacts" + dem + ".xlsx")) {
                         workbook.write(fileOut);
                         //System.out.println("ok");
                         abcxyz.setText("done!");
@@ -1158,142 +1034,34 @@ public class c extends javax.swing.JFrame {
                             driver.get(line);
                             Thread.sleep(5000);
                             WebDriverWait wait = new WebDriverWait(driver, 15);
-                            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
-                            WebElement links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
-                            WebElement linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                            WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
 
-                            WebElement tag = null;
-                            if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
-                                tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
-                            }
+                            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pdp-header__pt-name")));
 
-                            WebElement des = null;
-                            if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span", driver)) {
-                                des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
-                            }
-                            List<String> typeTshirt = new ArrayList<String>();
+                            //System.out.println(links2.getAttribute("src"));
+                            //WebElement linkstitle = driver.findElement(By.cssSelector(".pdp-header__design-title"));
+                            //WebElement tag = driver.findElement(By.cssSelector(".pdp-design-info__tags"));
+                            JavascriptExecutor executor = (JavascriptExecutor) driver;
+                            String title = (String) executor.executeScript("return document.getElementsByClassName('pdp-header__design-title')[0].innerText");
+                            //System.out.println(title);
+                            executor.executeScript("document.getElementsByClassName('sprd-accordion__btn')[3].click();");
+                            String tag = (String) executor.executeScript("return document.getElementsByClassName('pdp-design-info__tags')[0].innerText");
+                            //System.out.println(tag.replaceAll("Tags:  ", ""));
+                            executor.executeScript("document.getElementsByClassName('pdp-design-info__image')[0].scrollIntoView()");
+                            Thread.sleep(3000);
+                            String linkimage = (String) executor.executeScript("return document.getElementsByClassName('pdp-design-info__image')[0].src");
+                            linkimage = linkimage.split(",")[0] + ",width=1200,height=1200.png";
+                            linkimage = linkimage.replaceAll("spreadshirtmedia", "spreadshirt");
+                            //String title = linkstitle.getText();
+
                             image1 abc = new image1();
 
-                            try {
-                                String maintag = null;
-
-                            } catch (Exception e) {
-                            }
-
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-4-announce"), driver)) {
-                                typeTshirt.add("1");
-                            }
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-5-announce"), driver)) {
-                                typeTshirt.add("2");
-                            }
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-6-announce"), driver)) {
-                                typeTshirt.add("3");
-                            }
-
-                            String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
-                            String title = linkstitle.getText();
-
-                            if (typeTshirt.isEmpty()) {
-                                if (title.contains("Mens ")) {
-                                    typeTshirt.add("1");
-                                }
-                                if (title.contains("Womens ")) {
-                                    typeTshirt.add("2");
-                                }
-
-                            }
-                            if (typeTshirt.isEmpty()) {
-                                typeTshirt.add("1");
-                                typeTshirt.add("2");
-                            }
-                            abc.setKieuao(String.join(",", typeTshirt));
-
                             abc.setName(title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
-                            abc.setDes(des != null ? des.getText() : "");
+                            //abc.setDes(des != null ? des.getText() : "");
 
-                            if (isElementBy(By.cssSelector("img[alt='Black']"), driver)) {
-                                abc.setMau("1");
-                            } else {
-                                abc.setMau("2");
-                            }
-                            abc.setAlt(title
-                                    .replaceAll(" Raglan Baseball Tee", "")
-                                    .replaceAll(" V-Neck T-Shirt", "")
-                                    .replaceAll(" Tank Top", "")
-                                    .replaceAll(" Zip Hoodie", "")
-                                    .replaceAll(" Premium T-Shirt", "")
-                                    .replaceAll(" Sweatshirt", "")
-                                    .replaceAll(" Pullover Hoodie", "")
-                                    .replaceAll("Long Sleeve T-Shirt", "")
-                                    .replaceAll(" T-Shirt", "")
-                                    .replaceAll("Womens ", "")
-                                    .replaceAll("Mens ", "")
-                                    .replaceAll("Kids ", "")
-                                    .replaceAll(" Women V-Neck", ""));
+                            abc.setAlt(title);
 
-                            abc.setBrand(brandel.getText().replaceAll("Brand: ", ""));
-                            if (abc.getBrand().length() > 45) {
-                                String newbrand = abc.getBrand().substring(0, 45);
-
-                                int b = newbrand.lastIndexOf(" ");
-                                // System.out.println(b);
-                                //String nameProfile = newbrand.substring(b + 1);
-                                String urlDataur = newbrand.substring(0, b + 1);
-                                abc.setBrandnew(urlDataur);
-                            } else {
-                                abc.setBrandnew(abc.getBrand() + " Gift");
-                            }
-
-                            abc.setTag(tag != null ? tag.getText() : "");
+                            abc.setTag(tag != null ? tag.replaceAll("Tags:  ", "") : "");
                             abc.setUrl(line != null ? line : "");
-                            if (!abc.getTag().isEmpty()) {
-                                String tagfirst = abc.getAlt().replace("T-Shirt", "") + "," + abc.getTag() + "," + abc.getDes();
-                                tagfirst = tagfirst.replace("'", "").replace("?", "").replace("!", "").replace("'", "").replace("&", "").replace("*", "").replace(".", "").replace("^", "").replace("@", "").replace("%", "")
-                                        .replace(";", "")
-                                        .replace("/", "")
-                                        .replace("'", "")
-                                        .replace(":", "")
-                                        .replace("-", "")
-                                        .replace("_", "").replace("\"", "")
-                                        .replace("(", "")
-                                        .replace(")", "")
-                                        .replace("%", "")
-                                        .replace("$", "")
-                                        .replace("#", "")
-                                        .replace("@", "")
-                                        .replace("!", "")
-                                        .replace("|", "")
-                                        .replace("+", "")
-                                        .replace("=", "")
-                                        .replace("~", "")
-                                        .replace("`", "")
-                                        .replace("<", "")
-                                        .replace(">", "")
-                                        .replace(".", "")
-                                        .replace("{", "")
-                                        .replace("}", "")
-                                        .replace("[", "")
-                                        .replace("]", "")
-                                        .replace(" ", ",")
-                                        .replace(",,,", ",").replace(",,", ",") + ",gift,idea,design,quote,sayings,funny,present,humor,birthday,christmas,sarcasm";
-
-                                String[] words = tagfirst.toLowerCase().replace(" ", "").split(",");
-                                List<String> newtag = new ArrayList<>();
-                                String tagex = this.tagex.getText();
-                                for (int jkk = 0; jkk < words.length; jkk++) {
-                                    if (words[jkk] == null || words[jkk].trim().isEmpty() || tagex.contains(words[jkk].trim())) {
-                                        continue;
-                                    }
-                                    if (newtag.contains(words[jkk].trim()) == false) {
-                                        newtag.add(words[jkk].trim());
-                                    }
-
-                                }
-                                String tagnew = String.join(",", newtag);
-                                abc.setTagchuan(tagnew);
-                                //System.out.println(tagnew);
-                            }
 
                             listimage.add(abc);
                             URL url = new URL(linkimage);
@@ -1345,6 +1113,7 @@ public class c extends javax.swing.JFrame {
                                                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                         hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                                        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                                         hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
                                         hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
                                         graphics2D.setRenderingHints(hints);
@@ -1365,6 +1134,7 @@ public class c extends javax.swing.JFrame {
                                                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                         hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                                        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                                         hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
                                         hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
                                         graphics2D.setRenderingHints(hints);
@@ -1397,7 +1167,7 @@ public class c extends javax.swing.JFrame {
                 for (List<image1> partition : Lists.partition(listimage, Integer.parseInt(soluongDS.getText()))) {
                     Workbook workbook = wirteExcel(partition);
                     try ( // Write the output to a file
-                            FileOutputStream fileOut = new FileOutputStream(directory2.getParentFile().getPath() + "/contacts" + dem + ".xlsx")) {
+                             FileOutputStream fileOut = new FileOutputStream(linkSaveFile.getText() + "contacts" + dem + ".xlsx")) {
                         workbook.write(fileOut);
                         //System.out.println("ok");
                         abcxyz.setText("done!");
@@ -1467,7 +1237,7 @@ public class c extends javax.swing.JFrame {
     public static Workbook wirteExcel(List<image1> listimage)
             throws IOException {
 
-        String[] columns = {"Name", "title", "Brand New", "des1", "des2", "mau", "Kieu ao", "Main Tag", "tag", "Drand", "link"};
+        String[] columns = {"Name", "title", "tag", "link"};
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Contacts");
@@ -1496,15 +1266,10 @@ public class c extends javax.swing.JFrame {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(image.getName());
             row.createCell(1).setCellValue(image.getAlt());
-            row.createCell(2).setCellValue(image.getBrandnew());
-            row.createCell(3).setCellValue(image.getDes());
-            row.createCell(4).setCellValue(image.getTag());
-            row.createCell(5).setCellValue(image.getMau());
-            row.createCell(6).setCellValue(image.getKieuao());
-            row.createCell(7).setCellValue(image.getMaintag());
-            row.createCell(8).setCellValue(image.getTagchuan());
-            row.createCell(9).setCellValue(image.getBrand());
-            row.createCell(10).setCellValue(image.getUrl());
+
+            row.createCell(2).setCellValue(image.getTag());
+
+            row.createCell(3).setCellValue(image.getUrl());
 
             i++;
         }
@@ -1727,7 +1492,7 @@ public class c extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = SpreadShirt.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -1756,7 +1521,7 @@ public class c extends javax.swing.JFrame {
 
             adip = String.join(",", adress);
             //System.out.println("http://donthan.info/APIRED/index.php?key=" + rand + "&adress=" + adip + "&method=create");
-            String checkKeyUrl = "http://merchmanager.info/insert";
+            String checkKeyUrl = "http://45.77.65.193:8080/insert";
             subMitClass submitKey = new subMitClass();
             submitKey.setKey(String.valueOf(rand));
             submitKey.setAddress(adip);
@@ -1898,7 +1663,7 @@ public class c extends javax.swing.JFrame {
                 //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
             }
         } catch (InterruptedException ex1) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex1);
+            Logger.getLogger(SpreadShirt.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -1911,7 +1676,7 @@ public class c extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                c abc = new c();
+                SpreadShirt abc = new SpreadShirt();
                 abc.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
@@ -1941,7 +1706,7 @@ public class c extends javax.swing.JFrame {
                                 abc.keyApi.setText(Key);
                             }
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(SpreadShirt.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -1972,7 +1737,7 @@ public class c extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SpreadShirt.class.getName()).log(Level.SEVERE, null, ex);
         }
         return urlresturn;
     }

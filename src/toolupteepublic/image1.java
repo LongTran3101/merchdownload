@@ -19,6 +19,42 @@ public class image1 {
     String des;
     String maintag;
     String tagchuan;
+    String mau;
+    String brand;
+    String brandnew;
+    String kieuao;
+
+    public String getKieuao() {
+        return kieuao;
+    }
+
+    public void setKieuao(String kieuao) {
+        this.kieuao = kieuao;
+    }
+
+    public String getBrandnew() {
+        return brandnew;
+    }
+
+    public void setBrandnew(String brandnew) {
+        this.brandnew = brandnew;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getMau() {
+        return mau;
+    }
+
+    public void setMau(String mau) {
+        this.mau = mau;
+    }
 
     public String getTagchuan() {
         return tagchuan;

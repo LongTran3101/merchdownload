@@ -39,7 +39,6 @@ import java.net.URLConnection;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -95,7 +94,7 @@ import static toolupteepublic.downloadanh1.isElementXpath;
  *
  * @author me
  */
-public class c extends javax.swing.JFrame {
+public class cKeyRed extends javax.swing.JFrame {
 
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     /**
@@ -107,7 +106,7 @@ public class c extends javax.swing.JFrame {
     String stringUrlSave;
     static String Key;
 
-    public c() {
+    public cKeyRed() {
 
         initComponents();
     }
@@ -543,7 +542,7 @@ public class c extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton2)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -579,7 +578,7 @@ public class c extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Nhập key");
                 return;
             }
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = MainTestChorme.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -599,7 +598,7 @@ public class c extends javax.swing.JFrame {
                         hexadecimalFormat[i] = String.format("%02X", hardwareAddress[i]);
                     }
                     adress.add(String.join("-", hexadecimalFormat));
-                    //System.out.println(String.join("-", hexadecimalFormat));
+                    // System.out.println(String.join("-", hexadecimalFormat));
                 }
             }
 
@@ -613,12 +612,12 @@ public class c extends javax.swing.JFrame {
             fw2.write(String.valueOf(Key));//appends the string to the file
             fw2.close();
 
-            subMitClass submitKey = new subMitClass();
+           subMitClass submitKey = new subMitClass();
             //submit.setLstImage(objSubmid);
             submitKey.setKey(Key);
             submitKey.setAddress(adip);
 
-            String checkKeyUrl = "http://merchmanager.info/checkkey";
+            String checkKeyUrl = "http://45.77.65.193:8080/checkkey";
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String bodyKey = gson.toJson(submitKey);
@@ -663,33 +662,41 @@ public class c extends javax.swing.JFrame {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             String chromeProfilePath = textURLForder.getText();
             ChromeOptions chromeProfile = new ChromeOptions();
-            //System.out.println(PathLocal+".\\chromium\\win32-564778\\chrome-win32\\chrome.exe");
-            //olUpTeepublic\build\GoogleChromePortable\App\Chrome-bin\chrome.exe
-            chromeProfile.setBinary(PathLocal + ".\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe");
             File ex = new File(PathLocal + "./cmhaijgncfpbbhfnieobpbadekcpjpol.crx");
+            String profilePath=PathLocal+"\\ChromeProfile";
             chromeProfile.addArguments("window-size=500,500");
+            //String FullPath = ".\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe";
+             String FullPath = PathLocal+"./chromium/win32-564778/chrome-win32/chrome.exe";
+            
+            File f23 = new File(FullPath);
+            if (f23.exists() && !f23.isDirectory()) {
+                chromeProfile.setBinary(FullPath);     
+            }
             chromeProfile.addExtensions(ex);
+            //chromeProfile.setBinary(profilePath);
+            chromeProfile.addArguments("user-data-dir="+profilePath);
+            chromeProfile.addArguments("--disable-notifications");
 
-//                chromeProfile.addArguments("--headless");
-//                chromeProfile.addArguments("javascript.enabled=true");
-            chromeProfile.addArguments("--user-data-dir=ChromeProfile");
-            chromeProfile.addArguments("--silent");
-            chromeProfile.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36");
+            //chromeProfile.addArguments("start-maximized");
             chromeProfile.addArguments("--disable-blink-features");
             chromeProfile.addArguments("--disable-blink-features=AutomationControlled");
             chromeProfile.addArguments("--disable-notifications");
             chromeProfile.setExperimentalOption("useAutomationExtension", false);
-            chromeProfile.setExperimentalOption("excludeSwitches",
-                    Collections.singletonList("enable-automation"));
+            chromeProfile.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+            //options.addArguments("--incognito", "--disable-blink-features=AutomationControlled");
+            chromeProfile.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36");
 
-// Here you specify the actual profile folder (Profile 2)
+//                chromeProfile.addArguments("--headless");
+//                chromeProfile.addArguments("javascript.enabled=true");
+            //chromeProfile.addArguments("--user-data-dir=" + chromeProfilePath);
+            // Here you specify the actual profile folder (Profile 2)
             //chromeProfile.addArguments("--profile-directory=" + textURL.getText());
             capabilities.setCapability(ChromeOptions.CAPABILITY, chromeProfile);
-            //ChromeDriverService driverService = ChromeDriverService.createDefaultService().;
-            //driverService. = true;
+            ChromeDriverService driverService = ChromeDriverService.createDefaultService();
 
-            ChromeDriver driver = new ChromeDriver(chromeProfile);
+            ChromeDriver driver = new ChromeDriver(driverService, chromeProfile);
             //Thread.sleep(2000);
+
             if (theolink.isSelected()) {
 
                 try {
@@ -734,10 +741,6 @@ public class c extends javax.swing.JFrame {
                             Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
                             outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
-
-                            if ((newHeight - outputImage2.getHeight()) > 200) {
-                                hightwirte = 200;
-                            }
                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -747,8 +750,7 @@ public class c extends javax.swing.JFrame {
                                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                             hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                             hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                            hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                            hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                             graphics2D.setRenderingHints(hints);
 
                             graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -767,8 +769,7 @@ public class c extends javax.swing.JFrame {
                                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                             hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                             hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                            hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                            hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                             graphics2D.setRenderingHints(hints);
 
                             graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -867,12 +868,11 @@ public class c extends javax.swing.JFrame {
                                     WebElement tag = null;
                                     WebElement des = null;
                                     try {
-                                        Thread.sleep(5000);
                                         driver.get(url2);
                                         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
                                         links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
                                         linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                                        WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
+
                                         if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
                                             tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
                                         }
@@ -880,67 +880,27 @@ public class c extends javax.swing.JFrame {
                                         if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span", driver)) {
                                             des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
                                         }
-                                        List<String> typeTshirt = new ArrayList<String>();
-                                        if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-4-announce"), driver)) {
-                                            typeTshirt.add("1");
-                                        }
-                                        if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-5-announce"), driver)) {
-                                            typeTshirt.add("2");
-                                        }
-                                        if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-6-announce"), driver)) {
-                                            typeTshirt.add("3");
-                                        }
-
-                                        //String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
-                                        String title = linkstitle.getText();
-
-                                        if (typeTshirt.isEmpty()) {
-                                            if (title.contains("Mens ")) {
-                                                typeTshirt.add("1");
-                                            }
-                                            if (title.contains("Womens ")) {
-                                                typeTshirt.add("2");
-                                            }
-
-                                        }
-                                        if (typeTshirt.isEmpty()) {
-                                            typeTshirt.add("1");
-                                            typeTshirt.add("2");
-                                        }
-                                        abc.setKieuao(String.join(",", typeTshirt));
-                                        if (isElementBy(By.cssSelector("img[alt='Black']"), driver)) {
-                                            abc.setMau("1");
-                                        } else {
-                                            abc.setMau("2");
-                                        }
-                                        abc.setAlt(title
-                                                .replaceAll(" V-Neck T-Shirt", "")
-                                                .replaceAll(" Tank Top", "")
-                                                .replaceAll(" Zip Hoodie", "")
-                                                .replaceAll(" Premium T-Shirt", "")
-                                                .replaceAll(" Sweatshirt", "")
-                                                .replaceAll(" Pullover Hoodie", "")
-                                                .replaceAll("Long Sleeve T-Shirt", "")
-                                                .replaceAll(" T-Shirt", "")
-                                                .replaceAll("Womens ", "")
-                                                .replaceAll("Mens ", "")
-                                                .
-                                                replaceAll(" Women V-Neck", ""));
-
-                                        abc.setBrand(brandel.getText().replaceAll("Brand: ", ""));
-                                        if (abc.getBrand().length() > 45) {
-                                            String newbrand = abc.getBrand().substring(0, 45);
-
-                                            int b = newbrand.lastIndexOf(" ");
-                                            // System.out.println(b);
-                                            //String nameProfile = newbrand.substring(b + 1);
-                                            String urlDataur = newbrand.substring(0, b + 1);
-                                            abc.setBrandnew(urlDataur);
-                                        } else {
-                                            abc.setBrandnew(abc.getBrand() + " Gift");
-                                        }
 
                                         String maintag = null;
+                                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span#mt_box_keywords")));
+                                        if (isElementcssSelector("span#mt_box_keywords", driver)) {
+                                            maintag = driver.findElement(By.cssSelector("span#mt_box_keywords")).getText().replace("(1)", "").replace("(2)", "").replace("(3)", "").replace("(4)", "").replace("(5)", "").replace("(6)", "").replace("(7)", "")
+                                                    .replace("(8)", "")
+                                                    .replace("(9)", "")
+                                                    .replace("(10)", "")
+                                                    .replace("(11)", "")
+                                                    .replace("(12)", "")
+                                                    .replace("(13)", "")
+                                                    .replace("(14)", "")
+                                                    .replace("(15)", "")
+                                                    .replace("(16)", "")
+                                                    .replace("(17)", "")
+                                                    .replace("(18)", "")
+                                                    .replace("(19)", "")
+                                                    .replace("(20)", "").replace("No keywords found.", "");
+                                            abc.setMaintag(maintag);
+
+                                        }
 
                                     } catch (Exception e) {
                                         continue;
@@ -949,23 +909,10 @@ public class c extends javax.swing.JFrame {
                                     String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
                                     listurl.add(linkimage);
                                     String title = linkstitle.getText();
-                                    if (isElementBy(By.cssSelector("img[alt='Black']"), driver)) {
-                                        abc.setMau("1,3,4,6,8,9,12,13,14,16");
-                                    } else {
-                                        abc.setMau("2,5,7,11,10,16,20,21");
-                                    }
-                                    abc.setAlt(title);
-                                    if (title.length() > 50) {
-                                        abc.setBrand(title.substring(0, 50));
-                                    } else {
-                                        abc.setBrand(title);
-                                    }
 
                                     abc.setAlt(title);
                                     abc.setName(title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
                                     abc.setDes(des != null ? des.getText() : "");
-
-                                   
                                     abc.setTag(tag != null ? tag.getText() : "");
                                     abc.setUrl(linkimage);
                                     if (!abc.getTag().isEmpty()) {
@@ -1015,7 +962,10 @@ public class c extends javax.swing.JFrame {
                                         abc.setTagchuan(tagnew);
                                         //System.out.println(tagnew);
                                     }
+                                    if (listurl.contains(linkimage) ) {
+                                        continue;
 
+                                    }
                                     listimage.add(abc);
 
                                     try {
@@ -1054,9 +1004,6 @@ public class c extends javax.swing.JFrame {
                                                     Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
                                                     outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
                                                     int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
-                                                    if ((newHeight - outputImage2.getHeight()) > 200) {
-                                                        hightwirte = 200;
-                                                    }
                                                     int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                                                     int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1066,8 +1013,6 @@ public class c extends javax.swing.JFrame {
                                                             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                                     hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                                     hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                                    hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                                    hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
                                                     graphics2D.setRenderingHints(hints);
 
@@ -1087,8 +1032,6 @@ public class c extends javax.swing.JFrame {
                                                             RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                                     hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                                     hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                                    hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                                    hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
                                                     graphics2D.setRenderingHints(hints);
 
@@ -1154,15 +1097,12 @@ public class c extends javax.swing.JFrame {
                     if (!(line.startsWith("*"))) {
 
                         try {
-
                             driver.get(line);
-                            Thread.sleep(5000);
+                            //Thread.sleep(5000);
                             WebDriverWait wait = new WebDriverWait(driver, 15);
                             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
                             WebElement links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
                             WebElement linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                            WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
-
                             WebElement tag = null;
                             if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
                                 tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
@@ -1172,79 +1112,39 @@ public class c extends javax.swing.JFrame {
                             if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span", driver)) {
                                 des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
                             }
-                            List<String> typeTshirt = new ArrayList<String>();
                             image1 abc = new image1();
 
                             try {
                                 String maintag = null;
+                                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span#mt_box_keywords")));
+                                if (isElementcssSelector("span#mt_box_keywords", driver)) {
+                                    maintag = driver.findElement(By.cssSelector("span#mt_box_keywords")).getText().replace("(1)", "").replace("(2)", "").replace("(3)", "").replace("(4)", "").replace("(5)", "").replace("(6)", "").replace("(7)", "")
+                                            .replace("(8)", "")
+                                            .replace("(9)", "")
+                                            .replace("(10)", "")
+                                            .replace("(11)", "")
+                                            .replace("(12)", "")
+                                            .replace("(13)", "")
+                                            .replace("(14)", "")
+                                            .replace("(15)", "")
+                                            .replace("(16)", "")
+                                            .replace("(17)", "")
+                                            .replace("(18)", "")
+                                            .replace("(19)", "")
+                                            .replace("(20)", "").replace("No keywords found.", "");
+                                    abc.setMaintag(maintag);
+
+                                }
 
                             } catch (Exception e) {
-                            }
-
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-4-announce"), driver)) {
-                                typeTshirt.add("1");
-                            }
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-5-announce"), driver)) {
-                                typeTshirt.add("2");
-                            }
-                            if (isElementBy(By.cssSelector("#variation_fit_type #a-autoid-6-announce"), driver)) {
-                                typeTshirt.add("3");
                             }
 
                             String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
                             String title = linkstitle.getText();
 
-                            if (typeTshirt.isEmpty()) {
-                                if (title.contains("Mens ")) {
-                                    typeTshirt.add("1");
-                                }
-                                if (title.contains("Womens ")) {
-                                    typeTshirt.add("2");
-                                }
-
-                            }
-                            if (typeTshirt.isEmpty()) {
-                                typeTshirt.add("1");
-                                typeTshirt.add("2");
-                            }
-                            abc.setKieuao(String.join(",", typeTshirt));
-
+                            abc.setAlt(title);
                             abc.setName(title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
                             abc.setDes(des != null ? des.getText() : "");
-
-                            if (isElementBy(By.cssSelector("img[alt='Black']"), driver)) {
-                                abc.setMau("1");
-                            } else {
-                                abc.setMau("2");
-                            }
-                            abc.setAlt(title
-                                    .replaceAll(" Raglan Baseball Tee", "")
-                                    .replaceAll(" V-Neck T-Shirt", "")
-                                    .replaceAll(" Tank Top", "")
-                                    .replaceAll(" Zip Hoodie", "")
-                                    .replaceAll(" Premium T-Shirt", "")
-                                    .replaceAll(" Sweatshirt", "")
-                                    .replaceAll(" Pullover Hoodie", "")
-                                    .replaceAll("Long Sleeve T-Shirt", "")
-                                    .replaceAll(" T-Shirt", "")
-                                    .replaceAll("Womens ", "")
-                                    .replaceAll("Mens ", "")
-                                    .replaceAll("Kids ", "")
-                                    .replaceAll(" Women V-Neck", ""));
-
-                            abc.setBrand(brandel.getText().replaceAll("Brand: ", ""));
-                            if (abc.getBrand().length() > 45) {
-                                String newbrand = abc.getBrand().substring(0, 45);
-
-                                int b = newbrand.lastIndexOf(" ");
-                                // System.out.println(b);
-                                //String nameProfile = newbrand.substring(b + 1);
-                                String urlDataur = newbrand.substring(0, b + 1);
-                                abc.setBrandnew(urlDataur);
-                            } else {
-                                abc.setBrandnew(abc.getBrand() + " Gift");
-                            }
-
                             abc.setTag(tag != null ? tag.getText() : "");
                             abc.setUrl(line != null ? line : "");
                             if (!abc.getTag().isEmpty()) {
@@ -1333,9 +1233,6 @@ public class c extends javax.swing.JFrame {
                                         Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
                                         outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
                                         int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
-                                        if ((newHeight - outputImage2.getHeight()) > 200) {
-                                            hightwirte = 200;
-                                        }
                                         int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                                         int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1345,8 +1242,7 @@ public class c extends javax.swing.JFrame {
                                                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                         hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                        hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                                         graphics2D.setRenderingHints(hints);
 
                                         graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -1365,8 +1261,7 @@ public class c extends javax.swing.JFrame {
                                                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                                         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                                         hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                                        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-                                        hints.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
                                         graphics2D.setRenderingHints(hints);
 
                                         graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
@@ -1429,45 +1324,10 @@ public class c extends javax.swing.JFrame {
         return list.stream().filter(o -> o.getUrl().equals(name)).findFirst().isPresent();
     }
 
-    public static String callAPIPost(String completeUrl, String body) {
-        try {
-            int CONNECTION_TIMEOUT_MS = 60000;
-            int LATENT_CONNECTION_TIMEOUT_MS = 6000000;
-
-            CloseableHttpClient client = HttpClientBuilder.create().build();
-            RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECTION_TIMEOUT_MS)
-                    .setConnectionRequestTimeout(CONNECTION_TIMEOUT_MS).setSocketTimeout(CONNECTION_TIMEOUT_MS).build();
-            HttpPost httppost = new HttpPost(completeUrl);
-            try {
-                httppost.setHeader("Content-Type", "application/json;charset=UTF-8");
-                httppost.setHeader("Authorization", "Bearer ");
-                httppost.setConfig(config);
-                StringEntity stringEntity = new StringEntity(body, "UTF-8");
-                httppost.getRequestLine();
-                httppost.setEntity(stringEntity);
-            } catch (Exception e) {
-
-            }
-            CloseableHttpResponse response = client.execute(httppost);
-            if (response.getStatusLine().getStatusCode() >= 300) {
-                throw new IOException(String.format("failure - received a %d for %s.",
-                        response.getStatusLine().getStatusCode(), httppost.getURI().toString()));
-            }
-            HttpEntity entity = response.getEntity();
-
-            // StringWriter writer = new StringWriter();
-            // IOUtils.copy(entity.getContent(), writer);
-            return EntityUtils.toString(entity, "UTF-8");
-        } catch (Exception e) {
-        }
-
-        return null;
-    }
-
     public static Workbook wirteExcel(List<image1> listimage)
             throws IOException {
 
-        String[] columns = {"Name", "title", "Brand New", "des1", "des2", "mau", "Kieu ao", "Main Tag", "tag", "Drand", "link"};
+        String[] columns = {"Name", "title", "des1", "Main Tag", "tag", "des2", "link"};
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Contacts");
@@ -1496,16 +1356,10 @@ public class c extends javax.swing.JFrame {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(image.getName());
             row.createCell(1).setCellValue(image.getAlt());
-            row.createCell(2).setCellValue(image.getBrandnew());
-            row.createCell(3).setCellValue(image.getDes());
-            row.createCell(4).setCellValue(image.getTag());
-            row.createCell(5).setCellValue(image.getMau());
-            row.createCell(6).setCellValue(image.getKieuao());
-            row.createCell(7).setCellValue(image.getMaintag());
-            row.createCell(8).setCellValue(image.getTagchuan());
-            row.createCell(9).setCellValue(image.getBrand());
-            row.createCell(10).setCellValue(image.getUrl());
-
+            row.createCell(2).setCellValue(image.getDes());
+            row.createCell(3).setCellValue(image.getMaintag());
+            row.createCell(4).setCellValue(image.getTagchuan());
+            row.createCell(5).setCellValue(image.getTag());
             i++;
         }
 
@@ -1534,15 +1388,6 @@ public class c extends javax.swing.JFrame {
     protected static boolean isElementcssSelector(String tagcss, ChromeDriver driver) {
         try {
             driver.findElement(By.cssSelector(tagcss));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    protected static boolean isElementBy(By by, ChromeDriver driver) {
-        try {
-            driver.findElement(by);
             return true;
         } catch (Exception e) {
             return false;
@@ -1756,7 +1601,7 @@ public class c extends javax.swing.JFrame {
 
             adip = String.join(",", adress);
             //System.out.println("http://donthan.info/APIRED/index.php?key=" + rand + "&adress=" + adip + "&method=create");
-            String checkKeyUrl = "http://merchmanager.info/insert";
+            String checkKeyUrl = "http://45.77.65.193:8080/insert";
             subMitClass submitKey = new subMitClass();
             submitKey.setKey(String.valueOf(rand));
             submitKey.setAddress(adip);
@@ -1771,7 +1616,13 @@ public class c extends javax.swing.JFrame {
                     makey.setText(String.valueOf(rand));
                     keyApi.setText(String.valueOf(rand));
                     Key = String.valueOf(rand);
-
+                      String filename = PathLocal + "./key.txt";
+                        FileWriter fw = new FileWriter(filename); //the true will append the new data
+                        fw.write("");//appends the string to the file
+                        fw.close();
+                        FileWriter fw2 = new FileWriter(filename); //the true will append the new data
+                        fw2.write(String.valueOf(rand));//appends the string to the file
+                        fw2.close();
                 }
 
             }
@@ -1803,17 +1654,18 @@ public class c extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
+        
+        
         try {
-            FirefoxOptions option2 = new FirefoxOptions();
+            FirefoxOptions option2=new FirefoxOptions();
             ProtectionDomain pd = MainTestChorme.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
             File directory4 = new File(location.getPath());
             String PathLocal = directory4.getParentFile().getPath().replace("%20", " ");
-
-            File currentDir = new File("");
+            
+             File currentDir = new File("");
             System.out.println(currentDir.getAbsolutePath());
 
             File directory2 = new File(PathLocal + "./chromedriver.exe");
@@ -1831,7 +1683,7 @@ public class c extends javax.swing.JFrame {
 //                chromeProfile.setBinary(FullPath);
 //            }
             chromeProfile.addExtensions(ex);
-            chromeProfile.addExtensions(ex2);
+             chromeProfile.addExtensions(ex2);
             //chromeProfile.addArguments("user-data-dir=ChromeProfile");
             chromeProfile.addArguments("--disable-notifications");
 
@@ -1862,45 +1714,47 @@ public class c extends javax.swing.JFrame {
 //option2.adde(ex);
 //option2.addArguments("user-data-dir=ChromeProfile");
 
-            FirefoxDriver driver2 = new FirefoxDriver(option2);
-            int timeout = 0;
-            Boolean oke = false;
 
-            while (!oke && timeout < 5000) {
-                try {
-                    driver2.get("https://www.amazon.com/");
-                    Thread.sleep(2000);
-                    driver2.findElement(By.cssSelector("span#glow-ingress-line1")).click();
-                    oke = true;
-                } catch (Exception e) {
-                    timeout = timeout + 100;
-                }
 
-                //driver.findElements(By.cssSelector("a.s-no-outline")).;
-                //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
-            }
-            Thread.sleep(2000);
-            oke = false;
-            timeout = 0;
-            while (!oke && timeout < 5000) {
-                try {
-                    WebElement element_maintag = driver2.findElement(By.xpath("//*[@id=\"GLUXZipUpdateInput\"]"));
-                    element_maintag.sendKeys("10001");
-                    driver2.findElement(By.xpath("//*[@id=\"GLUXZipUpdate\"]/span/input")).click();
-                    Thread.sleep(1000);
-                    driver2.get("https://www.amazon.com/");
-                    oke = true;
-                } catch (Exception e) {
-                    timeout = timeout + 100;
-                }
+FirefoxDriver driver2 = new FirefoxDriver(option2);
+int timeout = 0;
+Boolean oke = false;
 
-                //driver.findElements(By.cssSelector("a.s-no-outline")).;
-                //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
-            }
+while (!oke && timeout < 5000) {
+    try {
+        driver2.get("https://www.amazon.com/");
+        Thread.sleep(2000);
+        driver2.findElement(By.cssSelector("span#glow-ingress-line1")).click();
+        oke = true;
+    } catch (Exception e) {
+        timeout = timeout + 100;
+    }
+    
+    //driver.findElements(By.cssSelector("a.s-no-outline")).;
+    //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
+}
+Thread.sleep(2000);
+oke = false;
+timeout = 0;
+while (!oke && timeout < 5000) {
+    try {
+        WebElement element_maintag = driver2.findElement(By.xpath("//*[@id=\"GLUXZipUpdateInput\"]"));
+        element_maintag.sendKeys("10001");
+        driver2.findElement(By.xpath("//*[@id=\"GLUXZipUpdate\"]/span/input")).click();
+        Thread.sleep(1000);
+        driver2.get("https://www.amazon.com/");
+        oke = true;
+    } catch (Exception e) {
+        timeout = timeout + 100;
+    }
+    
+    //driver.findElements(By.cssSelector("a.s-no-outline")).;
+    //driver.findElements(By.cssSelector("span#glow-ingress-line1")).
+}
         } catch (InterruptedException ex1) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex1);
+            Logger.getLogger(cKeyRed.class.getName()).log(Level.SEVERE, null, ex1);
         }
-
+   
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -1911,7 +1765,8 @@ public class c extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                c abc = new c();
+                cKeyRed abc = new cKeyRed();
+                abc.setTitle("MerchRun2710");
                 abc.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
@@ -1941,7 +1796,7 @@ public class c extends javax.swing.JFrame {
                                 abc.keyApi.setText(Key);
                             }
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(cKeyRed.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -1972,11 +1827,44 @@ public class c extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cKeyRed.class.getName()).log(Level.SEVERE, null, ex);
         }
         return urlresturn;
     }
+public static String callAPIPost(String completeUrl, String body) {
+        try {
+            int CONNECTION_TIMEOUT_MS = 60000;
+            int LATENT_CONNECTION_TIMEOUT_MS = 6000000;
 
+            CloseableHttpClient client = HttpClientBuilder.create().build();
+            RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECTION_TIMEOUT_MS)
+                    .setConnectionRequestTimeout(CONNECTION_TIMEOUT_MS).setSocketTimeout(CONNECTION_TIMEOUT_MS).build();
+            HttpPost httppost = new HttpPost(completeUrl);
+            try {
+                httppost.setHeader("Content-Type", "application/json;charset=UTF-8");
+                httppost.setHeader("Authorization", "Bearer ");
+                httppost.setConfig(config);
+                StringEntity stringEntity = new StringEntity(body, "UTF-8");
+                httppost.getRequestLine();
+                httppost.setEntity(stringEntity);
+            } catch (Exception e) {
+
+            }
+            CloseableHttpResponse response = client.execute(httppost);
+            if (response.getStatusLine().getStatusCode() >= 300) {
+                throw new IOException(String.format("failure - received a %d for %s.",
+                        response.getStatusLine().getStatusCode(), httppost.getURI().toString()));
+            }
+            HttpEntity entity = response.getEntity();
+
+            // StringWriter writer = new StringWriter();
+            // IOUtils.copy(entity.getContent(), writer);
+            return EntityUtils.toString(entity, "UTF-8");
+        } catch (Exception e) {
+        }
+
+        return null;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea abcxyz;
