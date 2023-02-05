@@ -496,9 +496,8 @@ public class c extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        
         try {
-          Key = keyApi.getText();
+            Key = keyApi.getText();
 
             if (Key == null || Key.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Nhập key");
@@ -537,6 +536,42 @@ public class c extends javax.swing.JFrame {
             FileWriter fw2 = new FileWriter(filename); //the true will append the new data
             fw2.write(String.valueOf(Key));//appends the string to the file
             fw2.close();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Config conf = new Config();
+            conf.setDai(this.hight.getText());
+            conf.setRong(this.width.getText());
+            conf.setSoluongds(this.soluongDS.getText());
+            conf.setUrlSave(this.linkSaveFile.getText());
+            if (this.checkresize.isSelected()) {
+                conf.setIsResize(1);
+            } else {
+                conf.setIsResize(0);
+            }
+
+            if (this.theofile.isSelected()) {
+                conf.setTheofile(1);
+            } else {
+                conf.setTheofile(0);
+            }
+            if (this.theolink.isSelected()) {
+                conf.setTheolink(1);
+            } else {
+                conf.setTheolink(0);
+            }
+            if (this.theopage.isSelected()) {
+                conf.setTheopage(1);
+            } else {
+                conf.setTheopage(0);
+            }
+
+            String configInfo = gson.toJson(conf);
+            String fileconfig = PathLocal + "./config.txt";
+            fw = new FileWriter(fileconfig); //the true will append the new data
+            fw.write("");//appends the string to the file
+            fw.close();
+            fw = new FileWriter(fileconfig); //the true will append the new data
+            fw.write(configInfo);//appends the string to the file
+            fw.close();
 
             subMitClass submitKey = new subMitClass();
             //submit.setLstImage(objSubmid);
@@ -545,7 +580,6 @@ public class c extends javax.swing.JFrame {
 
             String checkKeyUrl = "http://45.77.65.193:8080/checkkey";
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String bodyKey = gson.toJson(submitKey);
 
             String respKey = callAPIPost(checkKeyUrl, bodyKey);
@@ -578,7 +612,6 @@ public class c extends javax.swing.JFrame {
                 abcxyz.setText(lll + b + c + d + k + f);
                 return;
             }
-
 
             File currentDir = new File("");
             System.out.println(currentDir.getAbsolutePath());
@@ -614,7 +647,7 @@ public class c extends javax.swing.JFrame {
             //ChromeDriverService driverService = ChromeDriverService.createDefaultService().;
             //driverService. = true;
 
-            ChromeDriver driver = new ChromeDriver( chromeProfile);
+            ChromeDriver driver = new ChromeDriver(chromeProfile);
             //Thread.sleep(2000);
 
             if (theolink.isSelected()) {
@@ -664,9 +697,9 @@ public class c extends javax.swing.JFrame {
                             Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
                             outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
-                              if ((newHeight - outputImage2.getHeight()) > 200) {
-                            hightwirte=200;
-                        }
+                            if ((newHeight - outputImage2.getHeight()) > 200) {
+                                hightwirte = 200;
+                            }
                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1576,7 +1609,7 @@ public class c extends javax.swing.JFrame {
                             CodeSource cs = pd.getCodeSource();
                             URL location = cs.getLocation();
                             File directory4 = new File(location.getPath());
-                            String PathLocal = directory4.getParentFile().getPath();
+                            String PathLocal = directory4.getParentFile().getPath().replace("%20", " ");;
                             String filename = PathLocal + "./key.txt";
                             File myObj = new File(filename);
                             Scanner myReader = new Scanner(myObj);
@@ -1588,6 +1621,37 @@ public class c extends javax.swing.JFrame {
                             myReader.close();
                             if (!Key.isEmpty()) {
                                 abc.keyApi.setText(Key);
+                            }
+
+                            String Fileconfig = PathLocal + "./config.txt";
+                            File fileconfig = new File(Fileconfig);
+                            myReader = new Scanner(fileconfig);
+                            String configSTR = "";
+                            while (myReader.hasNextLine()) {
+                                configSTR = configSTR + myReader.nextLine();
+
+                            }
+                            myReader.close();
+
+                            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                            Config conf = gson.fromJson(configSTR, Config.class);
+                            abc.hight.setText(conf.getDai());
+                            abc.width.setText(conf.getRong());
+                            abc.soluongDS.setText(conf.getSoluongds());
+                            abc.linkSaveFile.setText(conf.getUrlSave());
+                            if (conf.getIsResize() == 1) {
+                                abc.checkresize.setSelected(true);
+                            }
+
+                            if (conf.getTheofile() == 1) {
+                                abc.theofile.setSelected(true);
+                            }
+
+                            if (conf.getTheolink() == 1) {
+                                abc.theolink.setSelected(true);
+                            }
+                            if (conf.getTheopage() == 1) {
+                                abc.theopage.setSelected(true);
                             }
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
