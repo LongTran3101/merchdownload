@@ -543,7 +543,7 @@ public class CrawlMerch extends javax.swing.JFrame {
             submitKey.setKey(Key);
             submitKey.setAddress(adip);
 
-            String checkKeyUrl = "http://45.77.65.193:8080/checkkey";
+            String checkKeyUrl = "http://45.32.101.196:8080/checkkey";
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String bodyKey = gson.toJson(submitKey);
@@ -1510,7 +1510,7 @@ public class CrawlMerch extends javax.swing.JFrame {
 
             adip = String.join(",", adress);
             //System.out.println("http://donthan.info/APIRED/index.php?key=" + rand + "&adress=" + adip + "&method=create");
-            String checkKeyUrl = "http://45.77.65.193:8080/insert";
+            String checkKeyUrl = "http://45.32.101.196:8080/insert";
             subMitClass submitKey = new subMitClass();
             submitKey.setKey(String.valueOf(rand));
             submitKey.setAddress(adip);

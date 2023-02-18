@@ -92,7 +92,7 @@ import static toolupteepublic.downloadanh1.isElementXpath;
  *
  * @author me
  */
-public class c extends javax.swing.JFrame {
+public class zazzle extends javax.swing.JFrame {
 
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     /**
@@ -104,7 +104,7 @@ public class c extends javax.swing.JFrame {
     String stringUrlSave;
     static String Key;
 
-    public c() {
+    public zazzle() {
 
         initComponents();
     }
@@ -467,12 +467,13 @@ public class c extends javax.swing.JFrame {
                             .addComponent(result))
                         .addGroup(layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(soluongDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel8)
-                                    .addComponent(tileresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(tileresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(soluongDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(width, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -520,7 +521,7 @@ public class c extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Nhập key");
                 return;
             }
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = zazzle.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -643,7 +644,7 @@ public class c extends javax.swing.JFrame {
             //olUpTeepublic\build\GoogleChromePortable\App\Chrome-bin\chrome.exe
             chromeProfile.setBinary(PathLocal + ".\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe");
             File ex = new File(PathLocal + "./cmhaijgncfpbbhfnieobpbadekcpjpol.crx");
-            chromeProfile.addArguments("window-size=500,500");
+            chromeProfile.addArguments("--start-maximized");
             chromeProfile.addExtensions(ex);
 
 //                chromeProfile.addArguments("--headless");
@@ -665,6 +666,8 @@ public class c extends javax.swing.JFrame {
             //driverService. = true;
 
             ChromeDriver driver = new ChromeDriver(chromeProfile);
+            JavascriptExecutor js =(JavascriptExecutor)driver;
+        js.executeScript("document.body.style.zoom='25%'");
             //Thread.sleep(2000);
 
             if (theolink.isSelected()) {
@@ -673,13 +676,12 @@ public class c extends javax.swing.JFrame {
 
                     driver.get(textURLForder.getText());
                     //Thread.sleep(5000);
-                    WebDriverWait wait = new WebDriverWait(driver, 15);
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#imgTagWrapperId img")));
-                    WebElement links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
-                    WebElement linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
-                    String linkimage = "https://m.media-amazon.com/images/I/" + links2.getAttribute("src").split("%7C")[2];
-                    String title = linkstitle.getText();
-                    String imageName = links2.getAttribute("src").split("%7C")[2];
+                   
+                    WebElement links2 = driver.findElement(By.cssSelector(".AboutThisDesign img"));
+                   
+                    String linkimage = links2.getAttribute("src")+"&bg=0x00000000&image_type=png&rvtype=content&csa=true&areacolor=false";
+                    linkimage=linkimage.replace("max_dim=130", "max_dim=2000");
+                    String title = links2.getAttribute("alt");
                     URL url = new URL(linkimage);
                     //URL url = new URL(urlString);
                     URLConnection connection = url.openConnection();
@@ -1533,7 +1535,7 @@ public class c extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = zazzle.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -1616,7 +1618,7 @@ public class c extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                c abc = new c();
+                zazzle abc = new zazzle();
                 abc.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
@@ -1677,7 +1679,7 @@ public class c extends javax.swing.JFrame {
                                 abc.theopage.setSelected(true);
                             }
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(zazzle.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -1708,7 +1710,7 @@ public class c extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(zazzle.class.getName()).log(Level.SEVERE, null, ex);
         }
         return urlresturn;
     }
