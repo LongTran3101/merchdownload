@@ -467,12 +467,13 @@ public class c extends javax.swing.JFrame {
                             .addComponent(result))
                         .addGroup(layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(soluongDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel8)
-                                    .addComponent(tileresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(tileresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(soluongDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(width, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -697,26 +698,40 @@ public class c extends javax.swing.JFrame {
                     in.close();
                     byte[] response = out.toByteArray();
                     if (checkresize.isSelected()) {
-
-                        int newHeight = Integer.parseInt(this.hight.getText()) * Integer.parseInt(this.tileresize.getText()) / 100;
-                        int newWidth = Integer.parseInt(this.width.getText()) * Integer.parseInt(this.tileresize.getText()) / 100;
-
+                        int newHeight = Integer.parseInt(hight.getText());
+                        int newWidth = Integer.parseInt(width.getText());
+                        int newHeightresize = Integer.parseInt(hight.getText()) * Integer.parseInt(tileresize.getText()) / 100;
+                        int newWidthresize = Integer.parseInt(width.getText()) * Integer.parseInt(tileresize.getText()) / 100;
                         // PNG supports transparency
                         // int type = config.formatName.equals("png")?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB;
                         ByteArrayInputStream bais = new ByteArrayInputStream(response);
 
-                        BufferedImage inputimage = ImageIO.read(bais);
-                        BufferedImage outputImage = trimImage(inputimage);
+                        BufferedImage outputImage1 = null;
+
+                        outputImage1 = ImageIO.read(bais);
+                        BufferedImage outputImage = trimImage(outputImage1);
 
                         Scalr.Mode mode = Scalr.Mode.FIT_TO_HEIGHT;
-                        BufferedImage outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
+                        BufferedImage outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
                         //System.out.println(outputImage2.getHeight());
                         if (outputImage2.getWidth() > newWidth) {
                             Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
-                            outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
+                            outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
+//                                            int hightwirte = Math.round(newHeight - outputImage2.getHeight());
+//                                            if((newHeight - outputImage2.getHeight())>35)
+//                                                 {
+//                                                        hightwirte = Math.round(newHeight - outputImage2.getHeight()+20);
+//                                                 }
                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
-                            if ((newHeight - outputImage2.getHeight()) > 200) {
-                                hightwirte = 200;
+
+                            if ((newHeight - outputImage2.getHeight()) > 400) {
+                                hightwirte = 400;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 600) {
+                                hightwirte = 500;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 500) {
+                                hightwirte = 450;
                             }
                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                             int type = BufferedImage.TYPE_INT_ARGB;
@@ -737,6 +752,34 @@ public class c extends javax.swing.JFrame {
                         } else {
                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
+                            if ((newHeight - outputImage2.getHeight()) > 100) {
+                                hightwirte = 100;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 200) {
+                                hightwirte = 200;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 400) {
+                                hightwirte = 400;
+
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 500) {
+                                hightwirte = 450;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 600) {
+                                hightwirte = 500;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 700) {
+                                hightwirte = 700;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 800) {
+                                hightwirte = 800;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 800) {
+                                hightwirte = 900;
+                            }
+                            if ((newHeight - outputImage2.getHeight()) > 800) {
+                                hightwirte = 1000;
+                            }
 
                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -782,7 +825,7 @@ public class c extends javax.swing.JFrame {
                         driver.findElement(By.cssSelector("span#glow-ingress-line1")).click();
                         oke = true;
                     } catch (Exception e) {
-                        timeout = timeout + 100;
+                        break;
                     }
 
                     //driver.findElements(By.cssSelector("a.s-no-outline")).;
@@ -955,24 +998,41 @@ public class c extends javax.swing.JFrame {
                                     byte[] response = out.toByteArray();
 
                                     if (checkresize.isSelected()) {
-
-                                        int newHeight = Integer.parseInt(this.hight.getText()) * Integer.parseInt(this.tileresize.getText()) / 100;
-                                        int newWidth = Integer.parseInt(this.width.getText()) * Integer.parseInt(this.tileresize.getText()) / 100;
-
+                                        int newHeight = Integer.parseInt(hight.getText());
+                                        int newWidth = Integer.parseInt(width.getText());
+                                        int newHeightresize = Integer.parseInt(hight.getText()) * Integer.parseInt(tileresize.getText()) / 100;
+                                        int newWidthresize = Integer.parseInt(width.getText()) * Integer.parseInt(tileresize.getText()) / 100;
                                         // PNG supports transparency
                                         // int type = config.formatName.equals("png")?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB;
                                         ByteArrayInputStream bais = new ByteArrayInputStream(response);
 
-                                        BufferedImage inputimage = ImageIO.read(bais);
-                                        BufferedImage outputImage = trimImage(inputimage);
+                                        BufferedImage outputImage1 = null;
+
+                                        outputImage1 = ImageIO.read(bais);
+                                        BufferedImage outputImage = trimImage(outputImage1);
 
                                         Scalr.Mode mode = Scalr.Mode.FIT_TO_HEIGHT;
-                                        BufferedImage outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
+                                        BufferedImage outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
                                         //System.out.println(outputImage2.getHeight());
                                         if (outputImage2.getWidth() > newWidth) {
                                             Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
-                                            outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
+                                            outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
+//                                            int hightwirte = Math.round(newHeight - outputImage2.getHeight());
+//                                            if((newHeight - outputImage2.getHeight())>35)
+//                                                 {
+//                                                        hightwirte = Math.round(newHeight - outputImage2.getHeight()+20);
+//                                                 }
                                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
+
+                                            if ((newHeight - outputImage2.getHeight()) > 400) {
+                                                hightwirte = 400;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 600) {
+                                                hightwirte = 500;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 500) {
+                                                hightwirte = 450;
+                                            }
                                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -988,10 +1048,38 @@ public class c extends javax.swing.JFrame {
                                             graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
                                             graphics2D.dispose();
 
-                                            ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + abc.getName()));
+                                            ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + title.replaceAll("[^a-zA-Z0-9\\s+]", "") + ".png"));
                                         } else {
                                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
                                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
+                                            if ((newHeight - outputImage2.getHeight()) > 100) {
+                                                hightwirte = 100;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 200) {
+                                                hightwirte = 200;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 400) {
+                                                hightwirte = 400;
+
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 500) {
+                                                hightwirte = 450;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 600) {
+                                                hightwirte = 500;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 700) {
+                                                hightwirte = 700;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 800) {
+                                                hightwirte = 800;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 800) {
+                                                hightwirte = 900;
+                                            }
+                                            if ((newHeight - outputImage2.getHeight()) > 800) {
+                                                hightwirte = 1000;
+                                            }
 
                                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1007,8 +1095,9 @@ public class c extends javax.swing.JFrame {
                                             graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
                                             graphics2D.dispose();
 
-                                            ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + abc.getName()));
+                                            ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + title.replaceAll("[^a-zA-Z0-9\\s+]", "") + ".png"));
                                         }
+
                                     } else {
                                         FileOutputStream fos = new FileOutputStream(linkSaveFile.getText() + title.replaceAll("[^a-zA-Z0-9\\s+]", "") + i + ".png");
                                         fos.write(response);
@@ -1177,24 +1266,41 @@ public class c extends javax.swing.JFrame {
                             byte[] response = out.toByteArray();
 
                             if (checkresize.isSelected()) {
-                                
-                        int newHeight = Integer.parseInt(this.hight.getText()) * Integer.parseInt(this.tileresize.getText()) / 100;
-                        int newWidth =  Integer.parseInt(this.width.getText()) * Integer.parseInt(this.tileresize.getText()) / 100;
-
+                                int newHeight = Integer.parseInt(hight.getText());
+                                int newWidth = Integer.parseInt(width.getText());
+                                int newHeightresize = Integer.parseInt(hight.getText()) * Integer.parseInt(tileresize.getText()) / 100;
+                                int newWidthresize = Integer.parseInt(width.getText()) * Integer.parseInt(tileresize.getText()) / 100;
                                 // PNG supports transparency
                                 // int type = config.formatName.equals("png")?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB;
                                 ByteArrayInputStream bais = new ByteArrayInputStream(response);
 
-                                BufferedImage inputimage = ImageIO.read(bais);
-                                BufferedImage outputImage = trimImage(inputimage);
+                                BufferedImage outputImage1 = null;
+
+                                outputImage1 = ImageIO.read(bais);
+                                BufferedImage outputImage = trimImage(outputImage1);
 
                                 Scalr.Mode mode = Scalr.Mode.FIT_TO_HEIGHT;
-                                BufferedImage outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
+                                BufferedImage outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
                                 //System.out.println(outputImage2.getHeight());
                                 if (outputImage2.getWidth() > newWidth) {
                                     Scalr.Mode mode2 = Scalr.Mode.FIT_TO_WIDTH;
-                                    outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidth - 10, newHeight - 10, Scalr.OP_ANTIALIAS);
+                                    outputImage2 = Scalr.resize(outputImage, Scalr.Method.ULTRA_QUALITY, mode2, newWidthresize - 10, newHeightresize - 10, Scalr.OP_ANTIALIAS);
+//                                            int hightwirte = Math.round(newHeight - outputImage2.getHeight());
+//                                            if((newHeight - outputImage2.getHeight())>35)
+//                                                 {
+//                                                        hightwirte = Math.round(newHeight - outputImage2.getHeight()+20);
+//                                                 }
                                     int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
+
+                                    if ((newHeight - outputImage2.getHeight()) > 400) {
+                                        hightwirte = 400;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 600) {
+                                        hightwirte = 500;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 500) {
+                                        hightwirte = 450;
+                                    }
                                     int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                                     int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1210,10 +1316,38 @@ public class c extends javax.swing.JFrame {
                                     graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
                                     graphics2D.dispose();
 
-                                    ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + abc.getName()));
+                                    ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + title.replaceAll("[^a-zA-Z0-9\\s+]", "") + ".png"));
                                 } else {
                                     int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
                                     int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
+                                    if ((newHeight - outputImage2.getHeight()) > 100) {
+                                        hightwirte = 100;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 200) {
+                                        hightwirte = 200;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 400) {
+                                        hightwirte = 400;
+
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 500) {
+                                        hightwirte = 450;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 600) {
+                                        hightwirte = 500;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 700) {
+                                        hightwirte = 700;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 800) {
+                                        hightwirte = 800;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 800) {
+                                        hightwirte = 900;
+                                    }
+                                    if ((newHeight - outputImage2.getHeight()) > 800) {
+                                        hightwirte = 1000;
+                                    }
 
                                     int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1229,7 +1363,7 @@ public class c extends javax.swing.JFrame {
                                     graphics2D.drawImage(outputImage2, widthwirte, hightwirte, null);
                                     graphics2D.dispose();
 
-                                    ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + abc.getName()));
+                                    ImageIO.write(outputImage4, "png", new File(linkSaveFile.getText() + title.replaceAll("[^a-zA-Z0-9\\s+]", "") + ".png"));
                                 }
 
                             } else {
