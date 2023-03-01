@@ -675,7 +675,7 @@ public class zazzle extends javax.swing.JFrame {
                 try {
 
                     driver.get(textURLForder.getText());
-                    //Thread.sleep(5000);
+                    Thread.sleep(5000);
                    
                     WebElement links2 = driver.findElement(By.cssSelector(".AboutThisDesign img"));
                    
