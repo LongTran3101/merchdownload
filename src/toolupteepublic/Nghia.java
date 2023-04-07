@@ -92,7 +92,7 @@ import static toolupteepublic.downloadanh1.isElementXpath;
  *
  * @author me
  */
-public class c extends javax.swing.JFrame {
+public class Nghia extends javax.swing.JFrame {
 
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     /**
@@ -104,7 +104,7 @@ public class c extends javax.swing.JFrame {
     String stringUrlSave;
     static String Key;
 
-    public c() {
+    public Nghia() {
 
         initComponents();
     }
@@ -521,7 +521,7 @@ public class c extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Nhập key");
                 return;
             }
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = Nghia.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -723,10 +723,7 @@ public class c extends javax.swing.JFrame {
 //                                                 }
                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
 
-                            if ((newHeight - outputImage2.getHeight()) > 100) {
-                                hightwirte = 100;
-                            }
-
+                          
                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -746,9 +743,7 @@ public class c extends javax.swing.JFrame {
                         } else {
                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
-                            if ((newHeight - outputImage2.getHeight()) > 100) {
-                                hightwirte = 100;
-                            }
+                           
 
                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1039,10 +1034,7 @@ public class c extends javax.swing.JFrame {
 //                                                 }
                                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
 
-                                            if ((newHeight - outputImage2.getHeight()) > 100) {
-                                                hightwirte = 100;
-                                            }
-
+                                          
                                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1062,9 +1054,7 @@ public class c extends javax.swing.JFrame {
                                         } else {
                                             int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
                                             int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
-                                            if ((newHeight - outputImage2.getHeight()) > 100) {
-                                                hightwirte = 100;
-                                            }
+                                           
 
                                             int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1323,9 +1313,7 @@ public class c extends javax.swing.JFrame {
 //                                                 }
                                     int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
 
-                                    if ((newHeight - outputImage2.getHeight()) > 100) {
-                                        hightwirte = 100;
-                                    }
+                                 
 
                                     int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
                                     int type = BufferedImage.TYPE_INT_ARGB;
@@ -1346,9 +1334,7 @@ public class c extends javax.swing.JFrame {
                                 } else {
                                     int hightwirte = Math.round((newHeight - outputImage2.getHeight()) / 2);
                                     int widthwirte = Math.round((newWidth - outputImage2.getWidth()) / 2);
-                                    if ((newHeight - outputImage2.getHeight()) > 100) {
-                                        hightwirte = 100;
-                                    }
+                                  
 
                                     int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -1672,7 +1658,7 @@ public class c extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            ProtectionDomain pd = c.class.getProtectionDomain();
+            ProtectionDomain pd = Nghia.class.getProtectionDomain();
             CodeSource cs = pd.getCodeSource();
             URL location = cs.getLocation();
 
@@ -1755,7 +1741,7 @@ public class c extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                c abc = new c();
+                Nghia abc = new Nghia();
                 abc.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
@@ -1816,7 +1802,7 @@ public class c extends javax.swing.JFrame {
                                 abc.theopage.setSelected(true);
                             }
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Nghia.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -1847,7 +1833,7 @@ public class c extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(c.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Nghia.class.getName()).log(Level.SEVERE, null, ex);
         }
         return urlresturn;
     }
