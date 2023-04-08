@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package toolupteepublic;
 
 import com.google.common.collect.Lists;
@@ -84,9 +80,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import static toolupteepublic.MainTestChorme.isElementcssSelector;
-import static toolupteepublic.MainTestChorme.readImageExcel;
-import static toolupteepublic.downloadanh1.isElementXpath;
+
 
 /**
  *
@@ -932,6 +926,15 @@ public class c extends javax.swing.JFrame {
                             } else {
                                 abc.setMau("2");
                             }
+                             try {
+                                 List<WebElement> lstLi = driver.findElements(By.cssSelector("#variation_color_name li"));
+                                 if(lstLi!=null && !lstLi.isEmpty()){
+                                     abc.soluongMau=lstLi.size()+"";
+                                     abc.mauDefaut=driver.findElement(By.cssSelector("#variation_color_name .selection")).getText();
+                                 } 
+                                 
+                            } catch (Exception e) {
+                            }
                             abc.setAlt(title
                                     .replaceAll(" V-Neck T-Shirt", "")
                                     .replaceAll(" Tank Top", "")
@@ -1218,6 +1221,16 @@ public class c extends javax.swing.JFrame {
                             } else {
                                 abc.setMau("2");
                             }
+                            
+                            try {
+                                 List<WebElement> lstLi = driver.findElements(By.cssSelector("#variation_color_name li"));
+                                 if(lstLi!=null && !lstLi.isEmpty()){
+                                     abc.soluongMau=lstLi.size()+"";
+                                     abc.mauDefaut=driver.findElement(By.cssSelector("#variation_color_name .selection")).getText();
+                                 } 
+                                 
+                            } catch (Exception e) {
+                            }
                             abc.setAlt(title
                                     .replaceAll(" V-Neck T-Shirt", "")
                                     .replaceAll(" Tank Top", "")
@@ -1423,7 +1436,7 @@ public class c extends javax.swing.JFrame {
     public static Workbook wirteExcel(List<image1> listimage) throws IOException {
     String[] columns = { 
         "Name", "title", "Brand New", "des1", "des2", "mau", "Kieu ao", "Main Tag", "tag", "Drand", 
-        "link" };
+        "link" ,"So luong mau","Mau default"};
     XSSFWorkbook xSSFWorkbook = new XSSFWorkbook();
     Sheet sheet = xSSFWorkbook.createSheet("Contacts");
     Font headerFont = xSSFWorkbook.createFont();
@@ -1453,6 +1466,8 @@ public class c extends javax.swing.JFrame {
       row.createCell(8).setCellValue(image.getTagchuan());
       row.createCell(9).setCellValue(image.getBrand());
       row.createCell(10).setCellValue(image.getUrl());
+       row.createCell(11).setCellValue(image.soluongMau);
+        row.createCell(12).setCellValue(image.mauDefaut);
       j++;
     } 
     return (Workbook)xSSFWorkbook;
@@ -1767,7 +1782,7 @@ public class c extends javax.swing.JFrame {
                     public void windowOpened(WindowEvent e) {
 
                         try {
-                            ProtectionDomain pd = MainTestChorme.class.getProtectionDomain();
+                            ProtectionDomain pd = c.class.getProtectionDomain();
                             CodeSource cs = pd.getCodeSource();
                             URL location = cs.getLocation();
                             File directory4 = new File(location.getPath());

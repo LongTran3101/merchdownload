@@ -20,6 +20,8 @@ public class image1 {
     String maintag;
     String tagchuan;
      String mau;
+     String mauDefaut;
+     String soluongMau;
 
     public String getMau() {
         return mau;
