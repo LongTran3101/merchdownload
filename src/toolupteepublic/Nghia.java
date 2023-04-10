@@ -84,10 +84,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import static toolupteepublic.MainTestChorme.isElementcssSelector;
-import static toolupteepublic.MainTestChorme.readImageExcel;
-import static toolupteepublic.downloadanh1.isElementXpath;
-
 /**
  *
  * @author me
@@ -1753,7 +1749,7 @@ public class Nghia extends javax.swing.JFrame {
                     public void windowOpened(WindowEvent e) {
 
                         try {
-                            ProtectionDomain pd = MainTestChorme.class.getProtectionDomain();
+                            ProtectionDomain pd = c.class.getProtectionDomain();
                             CodeSource cs = pd.getCodeSource();
                             URL location = cs.getLocation();
                             File directory4 = new File(location.getPath());
