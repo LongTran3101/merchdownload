@@ -1145,14 +1145,16 @@ public class c extends javax.swing.JFrame {
                             WebElement links2 = driver.findElement(By.cssSelector("div#imgTagWrapperId img"));
                             WebElement linkstitle = driver.findElement(By.cssSelector("span#productTitle"));
                             WebElement tag = null;
+                            
+                            
                              WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
                             if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
-                                tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
+                                tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
                             }
 
                             WebElement des = null;
                             if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span", driver)) {
-                                des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[6]/span"));
+                                des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
                             }
                             image1 abc = new image1();
 
