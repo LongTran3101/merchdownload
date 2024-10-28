@@ -34,8 +34,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -585,45 +589,96 @@ public class c extends javax.swing.JFrame {
             fw.write(configInfo);//appends the string to the file
             fw.close();
 
-            subMitClass submitKey = new subMitClass();
-            //submit.setLstImage(objSubmid);
-            submitKey.setKey(Key);
-            submitKey.setAddress(adip);
+//            subMitClass submitKey = new subMitClass();
+//            //submit.setLstImage(objSubmid);
+//            submitKey.setKey(Key);
+//            submitKey.setAddress(adip);
+//
+//            String checkKeyUrl = "http://45.32.101.196:8080/restApi/checkkey";
+//
+//            String bodyKey = gson.toJson(submitKey);
+//
+//            String respKey = callAPIPost(checkKeyUrl, bodyKey);
+//            subMitClass submitRPKey = new subMitClass();
+//            if (respKey != null && !respKey.isEmpty()) {
+//                submitRPKey = gson.fromJson(respKey, subMitClass.class);
+//                if (!submitRPKey.getKey().equalsIgnoreCase("00")) {
+//                    String c = "j", d = "e";
+////            String log = PathLocal + "./log.txt";
+//                    String k = "c", f = "t";
+////            FileWriter fw3 = new FileWriter(log, true); //the true will append the new data
+////            fw3.write("mac adress " + adip + "----" + adressMac);//appends the string to the file
+//                    String lll = "r", b = "e";
+////            fw3.close();
+//
+//                    abcxyz.setText(lll + b + c + d + k + f);
+//                    return;
+//
+//                }
+//
+//            } else {
+//                String c = "j", d = "e";
+////            String log = PathLocal + "./log.txt";
+//                String k = "c", f = "t";
+////            FileWriter fw3 = new FileWriter(log, true); //the true will append the new data
+////            fw3.write("mac adress " + adip + "----" + adressMac);//appends the string to the file
+//                String lll = "r", b = "e";
+////            fw3.close();
+//
+//                abcxyz.setText(lll + b + c + d + k + f);
+//                return;
+//            }
 
-            String checkKeyUrl = "http://45.32.101.196:8080/restApi/checkkey";
+        try {
+                    String SPREADSHEET_ID = "180Qp25BVLWw4ezLlFH7hEe-QdW50tvNhhHwyjmImp3Q"; // Thay bằng ID của bạn
+                    String SHEET_NAME = "key"; // Tên sheet cần đọc
+                    // Tạo URL để lấy dữ liệu dạng CSV
+                    String csvUrl = String.format(
+                            "https://docs.google.com/spreadsheets/d/%s/gviz/tq?tqx=out:csv&sheet=%s",
+                            SPREADSHEET_ID, SHEET_NAME
+                    );
+                    // Gửi yêu cầu HTTP GET
+                    URL url = new URL(csvUrl);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
 
-            String bodyKey = gson.toJson(submitKey);
+                    // Đọc phản hồi từ máy chủ
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            // Hiển thị dữ liệu từng dòng
+                            if(line.contains(Key) )
+                            {
+                                  String[] abnc=line.split(",");
+                                    // Định dạng của chuỗi ngày
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                     LocalDate date1 = LocalDate.parse(abnc[1].replaceAll("\"", ""), formatter);
+                                    LocalDate date2 = LocalDate.now();
 
-            String respKey = callAPIPost(checkKeyUrl, bodyKey);
-            subMitClass submitRPKey = new subMitClass();
-            if (respKey != null && !respKey.isEmpty()) {
-                submitRPKey = gson.fromJson(respKey, subMitClass.class);
-                if (!submitRPKey.getKey().equalsIgnoreCase("00")) {
-                    String c = "j", d = "e";
-//            String log = PathLocal + "./log.txt";
-                    String k = "c", f = "t";
-//            FileWriter fw3 = new FileWriter(log, true); //the true will append the new data
-//            fw3.write("mac adress " + adip + "----" + adressMac);//appends the string to the file
-                    String lll = "r", b = "e";
-//            fw3.close();
-
-                    abcxyz.setText(lll + b + c + d + k + f);
-                    return;
-
+                                    if(date1.isAfter(date2) || date1.isEqual(date2)){
+                                        
+                                    }else{
+                                        abcxyz.setText("reject");
+                                        return;
+                                    }
+                                   // String adr=abnc[2].replaceAll("\"", "");
+                                    if(!line.contains(adip))
+                                    {
+                                        abcxyz.setText("reject");
+                                        return;
+                                    }
+                            }
+                          
+                            
+                        }
+                    } catch (IOException e) {
+                    System.err.println("Đã xảy ra lỗi xảy ra khi get key: " + e.getMessage());
+                    }
+                } catch (IOException e) {
+                    System.err.println("Đã xảy ra lỗi khi đọc dữ liệu: " + e.getMessage());
                 }
 
-            } else {
-                String c = "j", d = "e";
-//            String log = PathLocal + "./log.txt";
-                String k = "c", f = "t";
-//            FileWriter fw3 = new FileWriter(log, true); //the true will append the new data
-//            fw3.write("mac adress " + adip + "----" + adressMac);//appends the string to the file
-                String lll = "r", b = "e";
-//            fw3.close();
 
-                abcxyz.setText(lll + b + c + d + k + f);
-                return;
-            }
 
             File currentDir = new File("");
             System.out.println(currentDir.getAbsolutePath());
@@ -1148,14 +1203,18 @@ public class c extends javax.swing.JFrame {
                             
                             
                              WebElement brandel = driver.findElement(By.cssSelector("#bylineInfo"));
-                            if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span", driver)) {
-                                tag = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[4]/span"));
+                            if (isElementXpath("//*[@id=\"productFactsDesktopExpander\"]/div[1]/ul[1]/span/li/span", driver)) {
+                                tag = driver.findElement(By.xpath("//*[@id=\"productFactsDesktopExpander\"]/div[1]/ul[1]/span/li/span"));
                             }
 
                             WebElement des = null;
-                            if (isElementXpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span", driver)) {
-                                des = driver.findElement(By.xpath("//*[@id=\"feature-bullets\"]/ul/li[5]/span"));
+                            if (isElementXpath("//*[@id=\"productFactsDesktopExpander\"]/div[1]/ul[2]/span/li/span", driver)) {
+                                des = driver.findElement(By.xpath("//*[@id=\"productFactsDesktopExpander\"]/div[1]/ul[2]/span/li/span"));
                             }
+                            
+                             
+                            
+                            
                             image1 abc = new image1();
 
                             try {
@@ -1717,26 +1776,27 @@ public class c extends javax.swing.JFrame {
             }
 
             adip = String.join(",", adress);
+            makey.setText(adip);
             //System.out.println("http://donthan.info/APIRED/index.php?key=" + rand + "&adress=" + adip + "&method=create");
-            String checkKeyUrl = "http://45.32.101.196:8080/restApi/insert";
-            subMitClass submitKey = new subMitClass();
-            submitKey.setKey(String.valueOf(rand));
-            submitKey.setAddress(adip);
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String bodyKey = gson.toJson(submitKey);
-
-            String respKey = callAPIPost(checkKeyUrl, bodyKey);
-            subMitClass submitRPKey = new subMitClass();
-            if (respKey != null && !respKey.isEmpty()) {
-                submitRPKey = gson.fromJson(respKey, subMitClass.class);
-                if (submitRPKey.getKey().equalsIgnoreCase("00")) {
-                    makey.setText(String.valueOf(rand));
-                    keyApi.setText(String.valueOf(rand));
-                    Key = String.valueOf(rand);
-
-                }
-
-            }
+//            String checkKeyUrl = "http://45.32.101.196:8080/restApi/insert";
+//            subMitClass submitKey = new subMitClass();
+//            submitKey.setKey(String.valueOf(rand));
+//            submitKey.setAddress(adip);
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            String bodyKey = gson.toJson(submitKey);
+//
+//            String respKey = callAPIPost(checkKeyUrl, bodyKey);
+//            subMitClass submitRPKey = new subMitClass();
+//            if (respKey != null && !respKey.isEmpty()) {
+//                submitRPKey = gson.fromJson(respKey, subMitClass.class);
+//                if (submitRPKey.getKey().equalsIgnoreCase("00")) {
+//                    
+//                    keyApi.setText(String.valueOf(rand));
+//                    Key = String.valueOf(rand);
+//
+//                }
+//
+//            }
 
         } catch (Exception e) {
         }
